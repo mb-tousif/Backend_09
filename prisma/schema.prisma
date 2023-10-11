@@ -33,7 +33,7 @@ enum Category {
 model User {
   id        String     @id @default(uuid())
   name      String
-  email     String   @unique
+  email     String
   password  String
   role      Role   @default(User) 
   imgUrl    String  @default("https://img.freepik.com/free-psd/3d-illustration-bald-person-with-glasses_23-2149436184.jpg")

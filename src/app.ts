@@ -5,6 +5,7 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import routes from './app/routes';
 
 import cookieParser from 'cookie-parser';
+import config from './config';
 
 const app: Application = express();
 
@@ -17,6 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', routes);
 
+app.get('/', (req, res) => {
+  res.send(
+    `<h1 style='text-align: center; padding: 20px; color:green'>${config.app_name} App Server is Running!</h1>`
+  );
+});
 
 //global error handler
 app.use(globalErrorHandler);
