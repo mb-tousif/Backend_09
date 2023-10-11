@@ -5,25 +5,25 @@
 
 ### Features
 
-[x] Implemented CRUD operations
-[x] Implemented Authentication and Authorization
-[x] Implemented Pagination and Filtering
-[x] Implemented $transaction for logical groups of processing data in Mongodb that needs to encapsulate several operations.
-[x] Implemented Zod for validation
-[x] Implemented JWT for authentication
-[x] Implemented Bcrypt for hashing password
-[x] Implemented Prisma for ORM
-[x] Implemented Typescript for type checking
+- [x] Implemented CRUD operations
+- [x] Implemented Authentication and Authorization
+- [x] Implemented Pagination and Filtering
+- [x] Implemented $transaction for logical groups of processing data in Mongodb that needs to encapsulate several operations.
+- [x] Implemented Zod for validation
+- [x] Implemented JWT for authentication
+- [x] Implemented Bcrypt for hashing password
+- [x] Implemented Prisma for ORM
+- [x] Implemented Typescript for type checking
 
 ### Technologies Used
 
-[x] Express.js
-[x] Typescript
-[x] Prisma
-[x] MongoDB
-[x] Zod
-[x] JWT
-[x] Bcrypt
+- [x] Express.js
+- [x] Typescript
+- [x] Prisma
+- [x] MongoDB
+- [x] Zod
+- [x] JWT
+- [x] Bcrypt
 
 ### Entity Relationship Diagram
 
@@ -35,11 +35,11 @@
 
 #### User
 
-[x] Create User POST /api/v1/auth/register [All users]
-[x] Login User POST /api/v1/auth/login [All users]
-[x] Get All Users GET /api/v1/users [All users]
-[x] Get User by id GET /api/v1/users/:id [All users]
-[x] Update User PATCH /api/v1/users/:id [Only admin]
-[x] Delete User DELETE /api/v1/users/:id [Only admin]
+- [x] Create User POST /api/v1/auth/register [All users]
+- [x] Login User POST /api/v1/auth/login [All users]
+- [x] Get All Users GET /api/v1/users [All users]
+- [x] Get User by id GET /api/v1/users/:id [All users]
+- [x] Update User PATCH /api/v1/users/:id [Only admin]
+- [x] Delete User DELETE /api/v1/users/:id [Only admin]
 
 Happy coding!
