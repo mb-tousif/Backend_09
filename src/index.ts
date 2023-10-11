@@ -1,7 +1,6 @@
 import { Server } from 'http';
 import app from './app';
-import config from './config';
-
+import config from './app/middlewares/config';
 
 async function Main() {
 
