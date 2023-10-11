@@ -30,55 +30,61 @@ enum Category {
   Shop_paint
 }
 
+enum Status {
+  Active
+  Inactive
+}
+
 model User {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
   email     String
   password  String
-  role      Role   @default(User) 
-  imgUrl    String  @default("https://img.freepik.com/free-psd/3d-illustration-bald-person-with-glasses_23-2149436184.jpg")
+  role      Role     @default(User)
+  status    Status   @default(Active)
+  imgUrl    String   @default("https://img.freepik.com/free-psd/3d-illustration-bald-person-with-glasses_23-2149436184.jpg")
   address   String
   contact   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  carts     Cart[]
-  reviews   Review[]
-  bookings  Booking[]
-  feedbacks Feedback[]
+  carts         Cart[]
+  reviews       Review[]
+  bookings      Booking[]
+  feedbacks     Feedback[]
   notifications Notification[]
-  blogs     Blogs[]
+  blogs         Blogs[]
 
   @@map("users")
 }
 
 model Service {
-  id        String     @id @default(uuid())
-  name      String
-  price     Int
-  category  Category
+  id          String   @id @default(uuid())
+  name        String
+  price       Int
+  category    Category
   description String
-  shedule   String
-  imgUrl    String  @default("https://img.freepik.com/free-vector/household-renovation-professions_23-2148676135.jpg")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  shedule     String
+  imgUrl      String   @default("https://img.freepik.com/free-vector/household-renovation-professions_23-2148676135.jpg")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  carts     Cart[]
-  bookings  Booking[]
-  shedules  Shedule[]
-  reviews   Review[]
+  carts    Cart[]
+  bookings Booking[]
+  shedules Shedule[]
+  reviews  Review[]
 
   @@map("services")
 }
 
 model Cart {
-  id        String     @id @default(uuid())
-  userId    String
-  serviceId String
-  quantity  Int
-  totalPrice     Int
-  users      User       @relation(fields: [userId], references: [id])
-  services   Service    @relation(fields: [serviceId], references: [id])
+  id         String  @id @default(uuid())
+  userId     String
+  serviceId  String
+  quantity   Int
+  totalPrice Int
+  users      User    @relation(fields: [userId], references: [id])
+  services   Service @relation(fields: [serviceId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -86,8 +92,38 @@ model Cart {
   @@map("carts")
 }
 
+model Booking {
+  id        String        @id @default(uuid())
+  userId    String
+  serviceId String
+  status    BookingStatus @default(Pending)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  services Service   @relation(fields: [serviceId], references: [id])
+  users    User      @relation(fields: [userId], references: [id])
+  shedules Shedule[]
+  notifications Notification[]
+
+  @@map("bookings")
+}
+
+model Shedule {
+  id        String   @id @default(uuid())
+  bookingId String
+  serviceId String
+  date      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings Booking @relation(fields: [bookingId], references: [id])
+  services Service @relation(fields: [serviceId], references: [id])
+
+  @@map("shedules")
+}
+
 model Review {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   userId    String
   serviceId String
   rating    Int
@@ -95,75 +131,51 @@ model Review {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users      User       @relation(fields: [userId], references: [id])
-  services   Service    @relation(fields: [serviceId], references: [id])
+  users     User       @relation(fields: [userId], references: [id])
+  services  Service    @relation(fields: [serviceId], references: [id])
+  feedbacks Feedback[]
 
   @@map("reviews")
 }
 
-model Booking {
-  id        String     @id @default(uuid())
-  userId    String
-  serviceId String
-  status    BookingStatus @default(Pending)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  shedules  Shedule[]
-  services   Service    @relation(fields: [serviceId], references: [id])
-  users      User       @relation(fields: [userId], references: [id])
-
-  @@map("bookings")
-}
-
-model Shedule {
-  id        String     @id @default(uuid())
-  bookingId    String
-  serviceId String
-  date      DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  bookings   Booking    @relation(fields: [bookingId], references: [id])
-  services   Service    @relation(fields: [serviceId], references: [id])
-  @@map("shedules")
-}
-
 model Feedback {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   userId    String
-  serviceId String
+  reviewId  String
   comment   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users      User       @relation(fields: [userId], references: [id])
+  users   User   @relation(fields: [userId], references: [id])
+  reviews Review @relation(fields: [reviewId], references: [id])
 
   @@map("feedbacks")
 }
 
 model Notification {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   userId    String
+  bookingId String
   message   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users      User       @relation(fields: [userId], references: [id])
+  users User @relation(fields: [userId], references: [id])
+  bookings Booking @relation(fields: [bookingId], references: [id])
 
   @@map("notifications")
 }
 
 model Blogs {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   userId    String
   title     String
   content   String
-  imgUrl    String    @default("https://img.freepik.com/free-photo/wall-painting-with-roller-concept_23-2148903464.jpg")
+  imgUrl    String   @default("https://img.freepik.com/free-photo/wall-painting-with-roller-concept_23-2148903464.jpg")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users      User       @relation(fields: [userId], references: [id])
+  users User @relation(fields: [userId], references: [id])
 
   @@map("blogs")
 }

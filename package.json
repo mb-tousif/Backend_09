@@ -10,11 +10,8 @@
     "postinstall": "prisma generate",
     "prisma:generate": "prisma generate"
   },
-  "author": "MERN Dev Tousif",
+  "author": "Full Stack Dev Tousif",
   "license": "ISC",
-  "lint-staged": {
-    "src/**/*.ts": "npm lint-prettier"
-  },
   "devDependencies": {
     "@types/node": "^20.4.9",
     "prisma": "^5.1.1",
