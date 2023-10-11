@@ -35,11 +35,12 @@
 
 #### User
 
-- [x] Create User POST /api/v1/auth/register [All users]
-- [x] Login User POST /api/v1/auth/login [All users]
-- [x] Get All Users GET /api/v1/users [All users]
-- [x] Get User by id GET /api/v1/users/:id [All users]
-- [x] Update User PATCH /api/v1/users/:id [Only admin]
-- [x] Delete User DELETE /api/v1/users/:id [Only admin]
+- [x] Create User `POST /api/v1/auth/signup` [Only User]
+- [x] Login User `POST /api/v1/auth/login` [All users]
+- [x] Get User By Id `GET /api/v1/users/profile/:id` [Only exact user and Admin]
+
+#### Super Admin
+
+- [x] Create Admin `POST /api/v1/super-admins/createAdmin` [Only Super Admin]
 
 Happy coding!
