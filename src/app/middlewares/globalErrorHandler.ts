@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
+import config from '../../config';
 import ApiError from '../../errors/ApiError';
 import handleZodError from '../../errors/handleZodError';
 import { IGenericErrorMessage } from '../../interfaces/error';
-import config from './config';
 
 const globalErrorHandler: ErrorRequestHandler = (
  error,

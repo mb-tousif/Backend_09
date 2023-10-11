@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "",
+        "role": "Admin",
+        "imgUrl": "https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-859.jpg"
+    },
+    {
+        "id": 1,
+        "service": "Wall Painting",
+        "price": 1000,
+        "imgUrl": "https://i.ibb.co/0jZQYQK/paint.jpg",
+        "duration": 2
+    }
+]

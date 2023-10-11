@@ -1,75 +1,45 @@
-# Service Booking and Management
-<!-- Description -->
-This `Service Booking and Management` is a backend boilerplate for Node.js, Express.js, and Prisma ORM. It is a comprehensive online platform backend project that allows users to book services and manage their bookings. It is built with Node.js, Express.js, and Prisma ORM. It also includes authentication, authorization, and role-based access control.
+# This project is for Painting Booking and Management Service
 
+## Description
+<p>This <em>Painting Booking and Management Service</em> is a backend boilerplate for Node.js, Express.js, and Prisma ORM. It is a comprehensive online platform backend project that allows users to book services and manage their bookings. It is built with Node.js, Express.js, and Prisma ORM. It also includes authentication, authorization, and role-based access control.</p>
 
-## Installation Steps
-### Follow these steps to clone and set up starter project:
+### Features
 
-1. `Clone the project:` Open your terminal or command prompt and run the following command to clone the project repository:
+[x] Implemented CRUD operations
+[x] Implemented Authentication and Authorization
+[x] Implemented Pagination and Filtering
+[x] Implemented $transaction for logical groups of processing data in Mongodb that needs to encapsulate several operations.
+[x] Implemented Zod for validation
+[x] Implemented JWT for authentication
+[x] Implemented Bcrypt for hashing password
+[x] Implemented Prisma for ORM
+[x] Implemented Typescript for type checking
 
-```bash
-git clone 
-```
+### Technologies Used
 
-2. `Navigate into the project directory:` Use the cd command to navigate into the project directory:
+[x] Express.js
+[x] Typescript
+[x] Prisma
+[x] MongoDB
+[x] Zod
+[x] JWT
+[x] Bcrypt
 
-```bash
-cd Backend_09
-```
+### Entity Relationship Diagram
 
-3. `Install project dependencies:` Next, install the project dependencies by running the following command:
+<p>
+<img src="./ERD.svg" align="center" width="100%" height="100%" style="border-radius: 30px;">
+</p>
 
-```bash
-  npm i install
-```
+#### API Endpoints
 
-4. Configure Prisma and the database connection:
+#### User
 
-- Add Prisma as a development dependency by running the following command:
-```bash
-  npm i prisma --save-dev
-```
-
-- Set up your Prisma project by creating the Prisma schema file using the following command:
-```bash
-npx prisma init
-```
-
-- Open the prisma/schema.prisma file and configure your database connection details.
-
-```bash
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-```
-
-- Create a .env file in the project root directory and set the DATABASE_URL environment variable. Replace the placeholders with your database connection details:
-```bash
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA"
-```
-
-5. Creating the database schema
-6. Migrate the database schema: Use the following command to create and apply the initial database schema:
-
-```bash
-npx prisma migrate dev --name init
-```
-This command creates a new migration file based on your schema changes and applies it to your database.
-
-6. `Install Prisma Client:` Install the Prisma Client library by running the following command:
-```bash
-yarn add @prisma/client
-```
-
-#### `Dynamic Modules template generator:` You can create Modules Folder with controller, service, validations, constants, routes by this command dynamically:
-
-```bash
-  node generateFile.ts <moduleFolderName> <moduleName>
-  // Like node generateFile.ts User user
-```
-
-This command installs the Prisma Client, which provides an interface to interact with your database.
+[x] Create User POST /api/v1/auth/register [All users]
+[x] Login User POST /api/v1/auth/login [All users]
+[x] Get All Users GET /api/v1/users [All users]
+[x] Get User by id GET /api/v1/users/:id [All users]
+[x] Update User PATCH /api/v1/users/:id [Only admin]
+[x] Delete User DELETE /api/v1/users/:id [Only admin]
 
 Happy coding!

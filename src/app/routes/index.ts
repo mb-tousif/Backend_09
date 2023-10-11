@@ -1,12 +1,22 @@
 import express from 'express';
+import { AdminRoutes } from '../modules/admin/Admin.routes';
+import { SuperAdminRoutes } from '../modules/superAdmin/SuperAdmin.routes';
+import { UserRoutes } from '../modules/user/User.routes';
 
 const router = express.Router();
 
 const moduleRoutes = [
-  // ... routes
   {
-    path: "",
-    routes: ""
+    path: "/users",
+    routes: UserRoutes
+  },
+  {
+    path: "/admins",
+    routes: AdminRoutes
+  },
+  {
+    path: "/super-admins",
+    routes: SuperAdminRoutes
   }
 ];
 

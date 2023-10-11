@@ -4,13 +4,11 @@
   "description": "Service Booking and Management for Prisma, Express, Typescript, and more!",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon ./src/index.ts",
-    "lint:check": "eslint --ignore-path .eslintignore --ext .js,.ts .",
-    "lint:fix": "eslint . --fix",
-    "prettier:check": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "prettier:fix": "prettier --write .",
-    "lint-prettier": "npm lint:check && npm prettier:check",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./dist/index.js",
+    "start-dev": "nodemon ./src/index.ts",
+    "build": "tsc",
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate"
   },
   "author": "MERN Dev Tousif",
   "license": "ISC",
@@ -27,6 +25,7 @@
     "@prisma/client": "^5.2.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.14",
     "@types/jsonwebtoken": "^9.0.2",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
