@@ -1,2 +1,9 @@
+export const serviceSearchableFields: string[] = ["name", "category", "price"];
 
-// Define your constants here
+export const serviceFilterableFields: string[] = [
+  "search",
+  "name",
+  "category",
+  "price",
+  "schedule"
+];

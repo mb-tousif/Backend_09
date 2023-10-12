@@ -21,7 +21,7 @@ const getAllUsers = async (options:IPaginationOptions, filterOptions: TFilterabl
   if (search) {
     andCondition.push({
       OR: userSearchableFields.map((field) => ({
-        [field]: {
+        [field.toString()]: {
           contains: search,
           mode: "insensitive",
         },
@@ -29,7 +29,6 @@ const getAllUsers = async (options:IPaginationOptions, filterOptions: TFilterabl
     });
   }
 
-  console.log(search);
   if (Object.keys(filterData).length > 0) {
     andCondition.push({
       AND: Object.keys(filterData).map((field) => ({

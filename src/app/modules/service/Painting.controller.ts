@@ -15,7 +15,19 @@ const createService = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
+// Get all services
+const getAllServices = catchAsync(async (req: Request, res: Response) => {
+    const payload = req.query;
+    const result = await PaintingService.getAllServices(payload);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "All services",
+      data: result,
+    });
+});
 
 export const PaintingController = {
-    createService
+    createService,
+    getAllServices,
 };

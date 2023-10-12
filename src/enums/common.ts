@@ -20,25 +20,25 @@ export const furniturePaintName: string[] = [
 ];
 
 export const homePaintName: string[] = [
-  "Interior Paint",
-  "Exterior Paint",
-  "Ceiling Paint",
+  "Home Interior Paint",
+  "Home Exterior Paint",
+  "Home Ceiling Paint",
   "Wall Paint",
-  "Floor Paint",
+  "Home Floor Paint",
 ];
 
 export const officePaintName: string[] = [
   "Interior Paint",
-  "Exterior Paint",
-  "Flyer Paint",
-  "Wall Paint",
-  "Banner Paint",
+  "Office Exterior Paint",
+  "Office Flyer Paint",
+  "Office Wall Paint",
+  "Office Furniture Paint",
 ];
 
 export const shopPaintName: string[] = [
-  "Interior Paint",
-  "Exterior Paint",
-  "Ceiling Paint",
-  "Wall Paint",
-  "Floor Paint",
+  "Shop Interior Paint",
+  "Shop Exterior Paint",
+  "Shop Ceiling Paint",
+  "Shop Wall Paint",
+  "Shop Floor Paint",
 ];

@@ -10,7 +10,7 @@ const postValidation = z.object({
         required_error: "Category field is not valid",
       }
     ),
-    description: z.string().min(3).max(255),
+    description: z.string().min(3).max(300),
     schedule: z.string().min(3).max(255),
     imgUrl: z.string().optional(),
   }),
