@@ -1,15 +1,28 @@
 /* eslint-disable no-unused-vars */
 export enum ENUM_USER_ROLE {
-  SUPER_ADMIN = 'Super_admin',
+  SUPER_ADMIN = 'Super Admin',
   ADMIN = 'Admin',
   USER = 'User',
 }
+enum ENUM_Booking_Status {
+  PENDING = "Pending",
+  CONFIRMED = "Confirmed",
+  DELIVERED = "Delivered",
+  CANCELLED = "Cancelled",
+}
+
 
 export enum ENUM_SERVICE_CATEGORY {
-  FURNITURE_PAINT = 'Furniture_paint',
-  HOME_PAINT = 'Home_paint',
-  OFFICE_PAINT = 'Office_paint',
-  SHOP_PAINT = 'Shop_paint',
+  FURNITURE_PAINTING = "Furniture painting",
+  HOME_PAINTING = "Home painting",
+  OFFICE_PAINTING = "Office painting",
+  SHOP_PAINTING = "Shop painting",
+}
+
+enum ENUM_User_Status {
+  ACTIVE = "Active",
+  INACTIVE = "Inactive",
+  BLOCKED = "Blocked",
 }
 
 export const furniturePaintName: string[] = [
@@ -20,25 +33,21 @@ export const furniturePaintName: string[] = [
 ];
 
 export const homePaintName: string[] = [
-  "Home Interior Paint",
-  "Home Exterior Paint",
-  "Home Ceiling Paint",
-  "Wall Paint",
-  "Home Floor Paint",
+ "Flat Interior Paintings",
+  "Flat Exterior Paintings",
+  "Flat Ceiling Paintings",
+  "Flat Wall Paintings",
+  "Flat Floor Paintings",
 ];
 
 export const officePaintName: string[] = [
-  "Interior Paint",
-  "Office Exterior Paint",
-  "Office Flyer Paint",
-  "Office Wall Paint",
-  "Office Furniture Paint",
+  "Interior Paintings",
+  "Exterior Paintings",
+  "Specific Area Paintings",
 ];
 
 export const shopPaintName: string[] = [
-  "Shop Interior Paint",
-  "Shop Exterior Paint",
-  "Shop Ceiling Paint",
-  "Shop Wall Paint",
-  "Shop Floor Paint",
+  "Shop Renovation Paintings",
+  "New Shop Paintings",
+  "Shop Specific Area Paintings",
 ];

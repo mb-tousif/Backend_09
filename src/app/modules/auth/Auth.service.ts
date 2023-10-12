@@ -1,7 +1,6 @@
 import { User } from "@prisma/client";
 import httpStatus from "http-status";
 import config from "../../../config";
-import { ENUM_USER_ROLE } from "../../../enums/common";
 import ApiError from "../../../errors/ApiError";
 import { hashPasswordHelper } from "../../../helpers/hashPasswordHelper";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
@@ -20,9 +19,9 @@ const signupUser = async (payload: User): Promise<Partial<User>> => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User already exist');
   }
   // handle if user role is Admin or Super_admin
-  if (payload.role === ENUM_USER_ROLE.ADMIN || payload.role === ENUM_USER_ROLE.SUPER_ADMIN) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'User can not create Admin or Super_admin');
-  }
+  // if (payload.role === ENUM_USER_ROLE.ADMIN || payload.role === ENUM_USER_ROLE.SUPER_ADMIN) {
+  //   throw new ApiError(httpStatus.UNAUTHORIZED, 'User can not create Admin or Super_admin');
+  // }
   // Hashing password
   payload.password = await hashPasswordHelper.hashPassword(payload.password);
 

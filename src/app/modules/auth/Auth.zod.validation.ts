@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 const signInValidation = z.object({
@@ -20,7 +19,7 @@ const signInValidation = z.object({
       })
       .min(6)
       .max(255),
-    role: z.enum(['User', 'Admin', 'Super_admin'], {
+    role: z.enum(['User', 'Admin', 'Super Admin'], {
       required_error: 'Role is required',
     }),
     contact: z.string({

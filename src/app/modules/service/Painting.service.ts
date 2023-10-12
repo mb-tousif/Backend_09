@@ -19,19 +19,19 @@ const createService = async (payload: Service): Promise<Service> =>{
     }
 
     // Check service name and category is match or not
-    if(payload.category === ENUM_SERVICE_CATEGORY.FURNITURE_PAINT && !furniturePaintName.includes(payload.name)){
+    if(payload.category === ENUM_SERVICE_CATEGORY.FURNITURE_PAINTING && !furniturePaintName.includes(payload.name)){
         throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
     }
 
-    if (payload.category === ENUM_SERVICE_CATEGORY.HOME_PAINT && !homePaintName.includes(payload.name)) {
+    if (payload.category === ENUM_SERVICE_CATEGORY.HOME_PAINTING && !homePaintName.includes(payload.name)) {
         throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
     }
 
-    if (payload.category === ENUM_SERVICE_CATEGORY.OFFICE_PAINT && !officePaintName.includes(payload.name)) {
+    if (payload.category === ENUM_SERVICE_CATEGORY.OFFICE_PAINTING && !officePaintName.includes(payload.name)) {
         throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
     }
 
-    if (payload.category === ENUM_SERVICE_CATEGORY.SHOP_PAINT && !shopPaintName.includes(payload.name)) {
+    if (payload.category === ENUM_SERVICE_CATEGORY.SHOP_PAINTING && !shopPaintName.includes(payload.name)) {
         throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
     }
 
