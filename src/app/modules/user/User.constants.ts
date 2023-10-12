@@ -3,6 +3,6 @@ export enum Enum_User_Status {
     INACTIVE = 'Inactive',
 }
 
-export const userSearchableFields: string[] = ["name", "email", "role", "status", "address", "contact"];
+export const userSearchableFields: string[] = ["name", "email", "role", "status", "address"];
 
 export const userFilterableFields: string[] = [ "search", 'name', 'role', 'status' ]; 

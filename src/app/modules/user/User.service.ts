@@ -10,7 +10,7 @@ import { userSearchableFields } from "./User.constants";
 import { TFilterableFields } from "./User.interfaces";
 
 // Get All users
-const getAllUsers = async (options:IPaginationOptions, filterOptions: TFilterableFields):Promise<IGenericResponse<Partial<User>[]>> => {
+const getAllUsers = async (options:IPaginationOptions, filterOptions: TFilterableFields ):Promise<IGenericResponse<Partial<User>[]>> => {
 
   // Handle pagination
   const { page, limit, skip, sortBy, sortOrder } = paginationHelpers.calculatePagination(options);
@@ -29,6 +29,7 @@ const getAllUsers = async (options:IPaginationOptions, filterOptions: TFilterabl
     });
   }
 
+  console.log(search);
   if (Object.keys(filterData).length > 0) {
     andCondition.push({
       AND: Object.keys(filterData).map((field) => ({
@@ -39,7 +40,7 @@ const getAllUsers = async (options:IPaginationOptions, filterOptions: TFilterabl
     });
   }
 
-  const whereQuery: Prisma.UserWhereInput | {} = andCondition.length > 0 ? { AND: andCondition } : {};
+  const whereQuery: Prisma.UserWhereInput = andCondition.length > 0 ? { AND: andCondition } : {};
   const users = await prisma.user.findMany({
     where: whereQuery,
     skip,
@@ -59,7 +60,7 @@ const getAllUsers = async (options:IPaginationOptions, filterOptions: TFilterabl
   });
 
   if (users.length === 0) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Student not found");
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
   const count = await prisma.user.count({
     where: whereQuery,

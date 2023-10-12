@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import httpStatus from "http-status";
 import config from "../../../config";
-import { ENUM_USER_ROLE } from "../../../enums/user";
+import { ENUM_USER_ROLE } from "../../../enums/common";
 import ApiError from "../../../errors/ApiError";
 import { hashPasswordHelper } from "../../../helpers/hashPasswordHelper";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";

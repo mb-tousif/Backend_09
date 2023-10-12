@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import { paginationFields } from "../../../constants/pagination";
-import { ENUM_USER_ROLE } from "../../../enums/user";
+import { ENUM_USER_ROLE } from "../../../enums/common";
 import ApiError from "../../../errors/ApiError";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import catchAsync from "../../../shared/catchAsync";

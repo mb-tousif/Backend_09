@@ -60,18 +60,18 @@ model User {
 
 model Service {
   id          String   @id @default(uuid())
-  name        String
+  name        String   @unique
   price       Int
   category    Category
   description String
-  shedule     String
+  schedule     String
   imgUrl      String   @default("https://img.freepik.com/free-vector/household-renovation-professions_23-2148676135.jpg")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   carts    Cart[]
   bookings Booking[]
-  shedules Shedule[]
+  schedules Schedule[]
   reviews  Review[]
 
   @@map("services")
@@ -102,13 +102,13 @@ model Booking {
 
   services Service   @relation(fields: [serviceId], references: [id])
   users    User      @relation(fields: [userId], references: [id])
-  shedules Shedule[]
+  schedules Schedule[]
   notifications Notification[]
 
   @@map("bookings")
 }
 
-model Shedule {
+model Schedule {
   id        String   @id @default(uuid())
   bookingId String
   serviceId String
@@ -133,7 +133,6 @@ model Review {
 
   users     User       @relation(fields: [userId], references: [id])
   services  Service    @relation(fields: [serviceId], references: [id])
-  feedbacks Feedback[]
 
   @@map("reviews")
 }
@@ -141,13 +140,11 @@ model Review {
 model Feedback {
   id        String   @id @default(uuid())
   userId    String
-  reviewId  String
   comment   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   users   User   @relation(fields: [userId], references: [id])
-  reviews Review @relation(fields: [reviewId], references: [id])
 
   @@map("feedbacks")
 }
