@@ -44,11 +44,16 @@
 
 #### Admin
 
--[x] Update User By Id `PATCH /api/v1/admins/update-user/:id` [ Only Admin can update any user for it's permission field ]
+- [x] Update User By Id `PATCH /api/v1/admins/update-user/:id` [ Only Admin can update any user for it's permission field ]
 
 #### Super Admin
 
 - [x] Create Admin `POST /api/v1/super-admins/createAdmin` [ Only Super Admin ]
 - [x] Update User By Id `PATCH /api/v1/super-admins/update-user/:id` [ Super Admin can update any user data without password ]
+
+#### Painting Service
+
+- [x] Create Painting Service `POST /api/v1/services/create-service` [ Only Admin and Super Admin ]
+- [x] Get All Painting Services `GET /api/v1/services/all-services` [ All users ]
 
 Happy coding!
