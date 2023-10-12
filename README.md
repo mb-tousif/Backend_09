@@ -35,12 +35,20 @@
 
 #### User
 
-- [x] Create User `POST /api/v1/auth/signup` [Only User]
-- [x] Login User `POST /api/v1/auth/login` [All users]
-- [x] Get User By Id `GET /api/v1/users/profile/:id` [Only exact user and Admin]
+- [x] Create User `POST /api/v1/auth/signup` [ Only User ]
+- [x] Login User `POST /api/v1/auth/login` [ All users ]
+- [x] Get All Users `GET /api/v1/users/all-users` [ Only Admin and Super Admin ]
+- [x] Get User By Id `GET /api/v1/users/profile/:id` [ Only exact user ]
+- [x] Update User By Id `PATCH /api/v1/users/update-profile/:id` [ Only exact user ]
+- [x] Delete User By Id `DELETE /api/v1/users/delete-profile/:id` [ Only Admin and Super Admin ]
+
+#### Admin
+
+-[x] Update User By Id `PATCH /api/v1/admins/update-user/:id` [ Only Admin can update any user for it's permission field ]
 
 #### Super Admin
 
-- [x] Create Admin `POST /api/v1/super-admins/createAdmin` [Only Super Admin]
+- [x] Create Admin `POST /api/v1/super-admins/createAdmin` [ Only Super Admin ]
+- [x] Update User By Id `PATCH /api/v1/super-admins/update-user/:id` [ Super Admin can update any user data without password ]
 
 Happy coding!

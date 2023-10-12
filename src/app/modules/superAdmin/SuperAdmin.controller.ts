@@ -15,6 +15,19 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateUserById = catchAsync(async (req: Request, res: Response) => {
+  const payload = req.params.id;
+  const data = req.body;
+  const result = await SuperAdminService.updateUserById(payload, data);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Super Admin Update profile successfully",
+    data: result,
+  });
+});
+
 export const SuperAdminController = {
     createAdmin,
+    updateUserById,
 };

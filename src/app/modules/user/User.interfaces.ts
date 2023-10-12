@@ -1,2 +1,6 @@
-
-// Define your interfaces here
+export type TFilterableFields = {
+  search?: string;
+  name?: string;
+  role?: string;
+  status?: string;
+};
