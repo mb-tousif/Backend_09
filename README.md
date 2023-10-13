@@ -91,5 +91,20 @@
 - [x] Update Review By Id `PATCH /api/v1/reviews/update-review/:id` [ Only Admin and Super Admin ]
 - [x] Delete Review By Id `DELETE /api/v1/reviews/delete-review/:id` [ Only Admin and Super Admin ]
 
+#### Feedback
+
+- [x] Create Feedback `POST /api/v1/feedbacks/create-feedback` [ Only User ]
+- [x] Get All Feedbacks `GET /api/v1/feedbacks/all-feedbacks` [ All users ]
+- [x] Get Feedback By Id `GET /api/v1/feedbacks/:id` [ All users ]
+- [x] Update Feedback By Id `PATCH /api/v1/feedbacks/update-feedback/:id` [ All users ]
+- [x] Delete Feedback By Id `DELETE /api/v1/feedbacks/delete-feedback/:id` [ All users ]
+
+#### Blog
+
+- [x] Create Blog `POST /api/v1/blogs/create-blog` [ Only Admin and Super Admin ]
+- [x] Get All Blogs `GET /api/v1/blogs/all-blogs` [ All users ]
+- [x] Get Blog By Id `GET /api/v1/blogs/:id` [ All users ]
+- [x] Update Blog By Id `PATCH /api/v1/blogs/update-blog/:id` [ Only Admin and Super Admin ]
+- [x] Delete Blog By Id `DELETE /api/v1/blogs/delete-blog/:id` [ Only Admin and Super Admin ]
 
 Happy coding!
