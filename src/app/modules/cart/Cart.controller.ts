@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
+import { paginationFields } from "../../../constants/pagination";
 import catchAsync from "../../../shared/catchAsync";
+import pick from "../../../shared/pick";
 import sendResponse from "../../../shared/sendResponse";
+import { cartFilterableFields } from "./Cart.constants";
 import { CartService } from "./Cart.service";
-
 // Post Cart data to database
 const createCart = catchAsync(async (req: Request, res: Response) => {
      const payload = req.body;
@@ -18,8 +20,8 @@ const createCart = catchAsync(async (req: Request, res: Response) => {
 
 // Get all Carts
 const getAllCarts = catchAsync(async (req: Request, res: Response) => {
-    const options = req.query;
-    const payload = req.query;
+    const options = pick(req.query, paginationFields);
+    const payload = pick(req.query, cartFilterableFields);
     const result = await CartService.getAllCarts( options, payload);
     sendResponse(res, {
       statusCode: httpStatus.OK,

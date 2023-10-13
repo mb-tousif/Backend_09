@@ -18,6 +18,26 @@ const createCart = async (payload: Cart): Promise<Cart> =>{
         }
     });
 
+    // Check user is blocked or not
+    if ( isExist?.status === "Blocked" || isExist?.status === "Inactive"){
+        throw new ApiError(httpStatus.BAD_REQUEST, "User is blocked or inactive");
+    };
+
+    // Check Cart total price is greater same as service price
+    const service = await prisma.service.findUnique({
+        where: {
+            id: payload.serviceId
+        }
+      });
+      
+    if ( !service){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Service did not found");
+    }
+
+    if(payload.totalPrice < service.price){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Cart total price is not match service price");
+    }
+
     if(isExist){
        const result = await prisma.cart.update({
           where: {
@@ -25,12 +45,12 @@ const createCart = async (payload: Cart): Promise<Cart> =>{
           },
           data: {
             quantity: {
-                increment: payload.quantity
+                increment: payload.quantity || 1
             },
             totalPrice: {
                 increment: payload.totalPrice
             }
-          }
+          },
         });
 
        return result;
@@ -89,6 +109,10 @@ const getAllCarts = async (
      take: limit,
      orderBy: {
        [sortBy]: sortOrder,
+     },
+     include: {
+       users: true,
+       services: true
      },
    });
 

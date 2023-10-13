@@ -6,6 +6,6 @@ export const CART_STATUS = {
     FAILED: 'Cancelled by admin',
 };
 
-export const cartSearchableFields: string[] = ["status"];
+export const cartSearchableFields: string[] = ["status", "userId", "serviceId"];
 
-export const cartFilterableFields: string[] = [ "search", "status"];
+export const cartFilterableFields: string[] = [ "search", "status", "userId", "serviceId"];

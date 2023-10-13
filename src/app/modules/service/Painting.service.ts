@@ -1,12 +1,11 @@
 import { Prisma, Service } from "@prisma/client";
 import httpStatus from "http-status";
-import { ENUM_SERVICE_CATEGORY, furniturePaintName, homePaintName, officePaintName, shopPaintName } from "../../../enums/common";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import prisma from "../../../shared/prisma";
-import { serviceSearchableFields } from "./Painting.constants";
+import { ENUM_SERVICE_CATEGORY, furniturePaintName, homePaintName, officePaintName, serviceSearchableFields, shopPaintName } from "./Painting.constants";
 import { TServiceFilterableOptions } from "./Painting.interfaces";
 
 // Post service data to database
