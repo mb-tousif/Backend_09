@@ -53,7 +53,18 @@
 
 #### Painting Service
 
-- [x] Create Painting Service `POST /api/v1/services/create-service` [ Only Admin and Super Admin ]
-- [x] Get All Painting Services `GET /api/v1/services/all-services` [ All users ]
+- [x] Create Service `POST /api/v1/services/create-service` [ Only Admin and Super Admin ]
+- [x] Get All Services `GET /api/v1/services/all-services` [ All users ]
+- [x] Get Service By Id `GET /api/v1/services/:id` [ All users ]
+- [x] Update Service By Id `PATCH /api/v1/services/update-service/:id` [ Only Admin and Super Admin ]
+- [x] Delete Service By Id `DELETE /api/v1/services/delete-service/:id` [ Only Admin and Super Admin ]
+
+#### Cart
+
+- [x] Create Cart `POST /api/v1/carts/create-cart` [ Only User ]
+- [x] Get All Carts `GET /api/v1/carts/all-carts` [ Only Admin and Super Admin ]
+- [x] Get Cart By Id `GET /api/v1/carts/:id` [ All users ]
+- [x] Update Cart By Id `PATCH /api/v1/carts/update-cart/:id` [ Only Admin and Super Admin ]
+- [x] Delete Cart By Id `DELETE /api/v1/carts/delete-cart/:id` [ All users ]
 
 Happy coding!
