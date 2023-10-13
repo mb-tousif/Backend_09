@@ -75,4 +75,21 @@
 - [x] Update Booking By Id `PATCH /api/v1/bookings/update-booking/:id` [ Only Admin and Super Admin ]
 - [x] Delete Booking By Id `DELETE /api/v1/bookings/delete-booking/:id` [ All users ]
 
+#### Schedule
+
+- [x] Create Schedule `POST /api/v1/schedules/create-schedule` [ All users ]
+- [x] Get All Schedules `GET /api/v1/schedules/all-schedules` [ Only Admin and Super Admin ]
+- [x] Get Schedule By Id `GET /api/v1/schedules/:id` [ All users ]
+- [x] Update Schedule By Id `PATCH /api/v1/schedules/update-schedule/:id` [ Only Admin and Super Admin ]
+- [x] Delete Schedule By Id `DELETE /api/v1/schedules/delete-schedule/:id` [ Only Admin and Super Admin ]
+
+#### Review and Rating
+
+- [x] Create Review `POST /api/v1/reviews/create-review` [ Only User ]
+- [x] Get All Reviews `GET /api/v1/reviews/all-reviews` [ All users ]
+- [x] Get Review By Id `GET /api/v1/reviews/:id` [ All users ]
+- [x] Update Review By Id `PATCH /api/v1/reviews/update-review/:id` [ Only Admin and Super Admin ]
+- [x] Delete Review By Id `DELETE /api/v1/reviews/delete-review/:id` [ Only Admin and Super Admin ]
+
+
 Happy coding!
