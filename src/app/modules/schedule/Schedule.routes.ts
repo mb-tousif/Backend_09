@@ -1,43 +1,43 @@
-
 import express from 'express';
 import { ENUM_USER_ROLE } from '../../../enums/common';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
-import { BookingController } from './Booking.controller';
-import { BookingValidation } from './Booking.zod.validation';
+import { ScheduleController } from './Schedule.controller';
+import { ScheduleValidation } from './Schedule.zod.validation';
 
 const router = express.Router();
 
 router.get(
-    '/all-bookings',
+    '/all-schedules',
     auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
-    BookingController.getAllBookings
+    ScheduleController.getAllSchedules
 );
 
 router.get(
     '/:id',
     auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
-    BookingController.getBookingById
+    ScheduleController.getScheduleById
 );
 
 router.post(
-    '/create-booking',
-    auth(ENUM_USER_ROLE.USER),
-    validateRequest(BookingValidation.postValidation),
-    BookingController.createBooking
+    '/create-schedule',
+    auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+    validateRequest(ScheduleValidation.postValidation),
+    ScheduleController.createSchedule
 );
 
 router.patch(
-  "/update-booking/:id",
+  "/update-schedule/:id",
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
-  validateRequest(BookingValidation.updateValidation),
-  BookingController.updateBookingById
+  validateRequest(ScheduleValidation.updateValidation),
+  ScheduleController.updateScheduleById
 );
 
 router.delete(
     '/:id',
     auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
-    BookingController.deleteBookingById
+    ScheduleController.deleteScheduleById
 );
 
-export const BookingRoutes = router;
+export const ScheduleRoutes = router;
+

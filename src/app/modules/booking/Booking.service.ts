@@ -10,16 +10,13 @@ import { TBookingFilterableOptions } from "./Booking.interfaces";
 
 // Post Booking data to database
 const createBooking = async (payload: Booking): Promise<Booking> => {
-  // Check Booking is already exist with same user and service
-  const isExist = await prisma.booking.findFirst({
+  // Handle user is blocked or not
+  const isActive = await prisma.user.findFirst({
     where: {
-      userId: payload.userId,
-      serviceId: payload.serviceId,
+      id: payload.userId,
     },
   });
-
-  // Check user is blocked or not
-  if (isExist?.status === "Blocked" || isExist?.status === "Inactive") {
+  if (isActive?.status === "Blocked" || isActive?.status === "Inactive") {
     throw new ApiError(httpStatus.BAD_REQUEST, "User is blocked or inactive");
   }
 

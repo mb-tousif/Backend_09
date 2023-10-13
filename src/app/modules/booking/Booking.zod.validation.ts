@@ -9,10 +9,10 @@ const postValidation = z.object({
       {
         required_error: "Status is required",
       }
-    ),
+    ).optional(),
     paymentStatus: z.enum(["Pending", "Partially Paid", "Paid"], {
       required_error: "Payment Status is required",
-    }),
+    }).optional(),
   }),
 });
 

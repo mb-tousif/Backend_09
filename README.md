@@ -67,4 +67,12 @@
 - [x] Update Cart By Id `PATCH /api/v1/carts/update-cart/:id` [ Only Admin and Super Admin ]
 - [x] Delete Cart By Id `DELETE /api/v1/carts/delete-cart/:id` [ All users ]
 
+#### Booking
+
+- [x] Create Booking `POST /api/v1/bookings/create-booking` [ Only User ]
+- [x] Get All Bookings `GET /api/v1/bookings/all-bookings` [ Only Admin and Super Admin ]
+- [x] Get Booking By Id `GET /api/v1/bookings/:id` [ All users ]
+- [x] Update Booking By Id `PATCH /api/v1/bookings/update-booking/:id` [ Only Admin and Super Admin ]
+- [x] Delete Booking By Id `DELETE /api/v1/bookings/delete-booking/:id` [ All users ]
+
 Happy coding!

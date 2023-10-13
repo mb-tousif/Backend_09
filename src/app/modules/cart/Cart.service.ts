@@ -19,7 +19,12 @@ const createCart = async (payload: Cart): Promise<Cart> =>{
     });
 
     // Check user is blocked or not
-    if ( isExist?.status === "Blocked" || isExist?.status === "Inactive"){
+    const isActive = await prisma.user.findFirst({
+      where: {
+        id: payload.userId,
+      },
+    });
+    if ( isActive?.status === "Blocked" || isActive?.status === "Inactive"){
         throw new ApiError(httpStatus.BAD_REQUEST, "User is blocked or inactive");
     };
 

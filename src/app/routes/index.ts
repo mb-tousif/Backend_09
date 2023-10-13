@@ -3,6 +3,7 @@ import { AdminRoutes } from '../modules/admin/Admin.routes';
 import { AuthRoutes } from '../modules/auth/Auth.routes';
 import { BookingRoutes } from '../modules/booking/Booking.routes';
 import { CartRoutes } from '../modules/cart/Cart.routes';
+import { ScheduleRoutes } from '../modules/schedule/Schedule.routes';
 import { PaintingRoutes } from '../modules/service/Painting.routes';
 import { SuperAdminRoutes } from '../modules/superAdmin/SuperAdmin.routes';
 import { UserRoutes } from '../modules/user/User.routes';
@@ -37,6 +38,10 @@ const moduleRoutes = [
   {
     path: "/bookings",
     routes: BookingRoutes
+  },
+  {
+    path: "/schedules",
+    routes: ScheduleRoutes
   }
 ];
 
