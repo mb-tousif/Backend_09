@@ -10,11 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// generator erd {
-//   provider = "prisma-erd-generator"
-//   theme = "forest"
-//   output = "../ERD.svg"
-// }
 
 model User {
   id        String   @id @default(uuid())
@@ -35,6 +30,7 @@ model User {
   feedbacks     Feedback[]
   notifications Notification[]
   blogs         Blogs[]
+  payments      Payment[]
 
   @@map("users")
 }
@@ -78,6 +74,7 @@ model Booking {
   userId    String
   serviceId String
   status    String   @default("Pending")
+  paymentStatus   String   @default("Pending")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -85,6 +82,7 @@ model Booking {
   users         User           @relation(fields: [userId], references: [id])
   schedules     Schedule[]
   notifications Notification[]
+  payments      Payment[]
 
   @@map("bookings")
 }
@@ -136,12 +134,14 @@ model Notification {
   id        String   @id @default(uuid())
   userId    String
   bookingId String
+  paymentId String
   message   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   users    User    @relation(fields: [userId], references: [id])
   bookings Booking @relation(fields: [bookingId], references: [id])
+  payments Payment @relation(fields: [paymentId], references: [id])
 
   @@map("notifications")
 }
@@ -158,4 +158,21 @@ model Blogs {
   users User @relation(fields: [userId], references: [id])
 
   @@map("blogs")
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  userId    String
+  bookingId String
+  serviceId String
+  amount    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  notifications Notification[]
+
+  users    User    @relation(fields: [userId], references: [id])
+  bookings Booking @relation(fields: [bookingId], references: [id])
+
+  @@map("payments")
 }

@@ -4,13 +4,20 @@ export enum ENUM_USER_ROLE {
   ADMIN = 'Admin',
   USER = 'User',
 }
-enum ENUM_Booking_Status {
+
+export enum ENUM_Booking_Status {
   PENDING = "Pending",
   CONFIRMED = "Confirmed",
   DELIVERED = "Delivered",
   CANCELLED = "Cancelled",
 }
 
+export enum ENUM_Payment_Status {
+  PENDING = "Pending",
+  PARTIALLY_PAID = "Partially Paid",
+  PAID = "Paid",
+  CANCELLED = "Cancelled",
+}
 
 export enum ENUM_SERVICE_CATEGORY {
   FURNITURE_PAINTING = "Furniture painting",
