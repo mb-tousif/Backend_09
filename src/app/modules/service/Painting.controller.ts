@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
+import { paginationFields } from "../../../constants/pagination";
 import catchAsync from "../../../shared/catchAsync";
+import pick from "../../../shared/pick";
 import sendResponse from "../../../shared/sendResponse";
+import { serviceFilterableFields } from "./Painting.constants";
 import { PaintingService } from "./Painting.service";
 
 const createService = catchAsync(async (req: Request, res: Response) => {
@@ -10,19 +13,20 @@ const createService = catchAsync(async (req: Request, res: Response) => {
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,
-      message: "User created successfully",
+      message: "Painting service created successfully",
       data: result,
     });
 })
 
 // Get all services
 const getAllServices = catchAsync(async (req: Request, res: Response) => {
-    const payload = req.query;
-    const result = await PaintingService.getAllServices(payload);
+    const options = pick(req.query, paginationFields);
+    const filterOptions = pick(req.query, serviceFilterableFields);
+    const result = await PaintingService.getAllServices( options, filterOptions);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: "All services",
+      message: "Fetched all services",
       data: result,
     });
 });

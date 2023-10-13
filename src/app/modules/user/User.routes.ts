@@ -13,12 +13,12 @@ router.get('/all-users',
 );
 
 router.get('/profile/:id',
-    auth( ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+    auth( ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
     UserController.getProfileById
 );
 
 router.patch('/update-profile/:id',
-    auth( ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+    auth( ENUM_USER_ROLE.USER),
     validateRequest( UserValidation.userUpdateValidationField),
     UserController.updateProfileById
 );

@@ -14,7 +14,7 @@ const userUpdateValidationField = z.object({
 const adminUpdateValidationField = z.object({
   body: z.object({
     status: z
-      .enum(["Active", "Inactive"], {
+      .enum(["Active", "Inactive", "Blocked"], {
         required_error: "Status field data is not valid",
       })
   })

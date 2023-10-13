@@ -2,18 +2,20 @@ import { Prisma, Service } from "@prisma/client";
 import httpStatus from "http-status";
 import { ENUM_SERVICE_CATEGORY, furniturePaintName, homePaintName, officePaintName, shopPaintName } from "../../../enums/common";
 import ApiError from "../../../errors/ApiError";
+import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
+import { IPaginationOptions } from "../../../interfaces/pagination";
 import prisma from "../../../shared/prisma";
 import { serviceSearchableFields } from "./Painting.constants";
-import { TQueryParams } from "./Painting.interfaces";
+import { TServiceFilterableOptions } from "./Painting.interfaces";
 
 const createService = async (payload: Service): Promise<Service> =>{
+  // Handle duplicate service Data
     const isServiceExist = await prisma.service.findUnique({
         where: {
             name: payload.name
         }
     });
-    
     if(isServiceExist){
         throw new ApiError( httpStatus.BAD_REQUEST, "Service already exist")
     }
@@ -35,27 +37,27 @@ const createService = async (payload: Service): Promise<Service> =>{
         throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
     }
 
+    // Posting service data to database
     const service = await prisma.service.create({
         data: payload
     });
+
+    if(!service){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Service is not created");
+    }
+
     return service;
 }
 
 // Get all services
 const getAllServices = async (
-  payload: TQueryParams
+  options: IPaginationOptions,
+  payload: TServiceFilterableOptions
 ): Promise<IGenericResponse<Partial<Service>[]>> => {
-  const {
-    page = 1,
-    limit = 10,
-    sortBy = "createdAt",
-    sortOrder = "desc",
-    search,
-    minPrice,
-    maxPrice,
-  } = payload;
-  const skip = (Number(page) - 1) * Number(limit);
-  const take = Number(limit);
+
+  // Handle pagination, custom query, search and filtration
+  const { search, minPrice, maxPrice, ...filterData } = payload;
+  const { page, limit, sortBy, sortOrder } = paginationHelpers.calculatePagination(options);
   const query: Prisma.ServiceFindManyArgs = {
     where: {
       AND: [
@@ -71,13 +73,20 @@ const getAllServices = async (
               })),
             }
           : {},
+        filterData
+          ? {
+              AND: Object.keys(filterData).map((field) => ({
+                [field]: {
+                  equals: (filterData as any)[field],
+                },
+              })),
+            }
+          : {},
       ],
     },
     orderBy: {
       [sortBy as string]: sortOrder,
     },
-    skip,
-    take,
   };
 
   const services = await prisma.service.findMany({
@@ -86,8 +95,10 @@ const getAllServices = async (
     skip: query.skip,
     take: query.take,
   });
+
+  // Throw error if any service data is not found
   if (services.length <= 0) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Any Painting service not found");
+    throw new ApiError(httpStatus.BAD_REQUEST, "Any Painting service is not found");
   }
   const total = await prisma.service.count({
     where: query.where,

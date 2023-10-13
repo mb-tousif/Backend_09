@@ -10,6 +10,10 @@ import { ILoginResponse, IRefreshTokenResponse } from "./Auth.interfaces";
 
 // Create user in database
 const signupUser = async (payload: User): Promise<Partial<User>> => {
+  // handle if user role is Admin or Super_admin
+  if (payload.role === ENUM_USER_ROLE.ADMIN || payload.role === ENUM_USER_ROLE.SUPER_ADMIN) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'User can not create Admin or Super_admin');
+  }
   // Handle if user already exist
   const isExistUser = await prisma.user.findFirst({
     where: {
@@ -18,10 +22,6 @@ const signupUser = async (payload: User): Promise<Partial<User>> => {
   });
   if (isExistUser) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User already exist');
-  }
-  // handle if user role is Admin or Super_admin
-  if (payload.role === ENUM_USER_ROLE.ADMIN || payload.role === ENUM_USER_ROLE.SUPER_ADMIN) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'User can not create Admin or Super_admin');
   }
   // Hashing password
   payload.password = await hashPasswordHelper.hashPassword(payload.password);

@@ -37,6 +37,7 @@ export const furniturePaintName: string[] = [
   "Metal Furniture Paint",
   "Plastic Furniture Paint",
   "Glass Furniture Paint",
+  "Furniture Renovation Paint"
 ];
 
 export const homePaintName: string[] = [
@@ -45,16 +46,22 @@ export const homePaintName: string[] = [
   "Flat Ceiling Paintings",
   "Flat Wall Paintings",
   "Flat Floor Paintings",
+  "Specific Area Paintings",
 ];
 
 export const officePaintName: string[] = [
   "Interior Paintings",
   "Exterior Paintings",
   "Specific Area Paintings",
+  "Ceiling Paintings",
+  "Wall Paintings",
 ];
 
 export const shopPaintName: string[] = [
   "Shop Renovation Paintings",
   "New Shop Paintings",
   "Shop Specific Area Paintings",
+  "Shop Interior Paintings",
+  "Shop Ceiling Paintings",
+  "Shop Wall Paintings",
 ];

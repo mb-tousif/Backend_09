@@ -5,5 +5,7 @@ export const serviceFilterableFields: string[] = [
   "name",
   "category",
   "price",
-  "schedule"
+  "schedule",
+  "minPrice",
+  "maxPrice"
 ];

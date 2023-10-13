@@ -19,8 +19,8 @@
 
 - [x] Express.js
 - [x] Typescript
+- [x] PostgresSQL
 - [x] Prisma
-- [x] MongoDB
 - [x] Zod
 - [x] JWT
 - [x] Bcrypt
