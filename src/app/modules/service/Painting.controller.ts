@@ -31,7 +31,47 @@ const getAllServices = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+// Get service by id
+const getServiceById = catchAsync(async (req: Request, res: Response) => {
+    const serviceId = req.params.id;
+    const result = await PaintingService.getServiceById(serviceId);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Fetched service by id",
+      data: result,
+    });
+});
+
+// Update service by id
+const updateServiceById = catchAsync(async (req: Request, res: Response) => {
+    const serviceId = req.params.id;
+    const payload = req.body;
+    const result = await PaintingService.updateServiceById(serviceId, payload);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Service updated successfully",
+      data: result,
+    });
+});
+
+// Delete service by id
+const deleteServiceById = catchAsync(async (req: Request, res: Response) => {
+    const serviceId = req.params.id;
+    const result = await PaintingService.deleteServiceById(serviceId);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Service deleted successfully",
+      data: result,
+    });
+});
+
 export const PaintingController = {
     createService,
     getAllServices,
+    getServiceById,
+    updateServiceById,
+    deleteServiceById
 };

@@ -9,6 +9,7 @@ import prisma from "../../../shared/prisma";
 import { serviceSearchableFields } from "./Painting.constants";
 import { TServiceFilterableOptions } from "./Painting.interfaces";
 
+// Post service data to database
 const createService = async (payload: Service): Promise<Service> =>{
   // Handle duplicate service Data
     const isServiceExist = await prisma.service.findUnique({
@@ -113,7 +114,90 @@ const getAllServices = async (
   };
 };
 
+// Get service by id
+const getServiceById = async ( payload: string ): Promise<Service> => {
+    const service = await prisma.service.findUnique({
+        where: {
+            id: payload
+        },
+        include: {
+          bookings: true,
+          carts: true,
+          schedules: true,
+          reviews: true,
+        }
+    });
+
+    if(!service){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Service did not found");
+    }
+
+    return service;
+}
+
+// Update service by id
+const updateServiceById = async ( payload: string, data: Service ): Promise<Service> => {
+  // Check service name and category is match or not
+  if (data.category === ENUM_SERVICE_CATEGORY.FURNITURE_PAINTING && !furniturePaintName.includes(data.name)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
+  }
+
+  if (data.category === ENUM_SERVICE_CATEGORY.HOME_PAINTING && !homePaintName.includes(data.name)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
+  }
+
+  if (data.category === ENUM_SERVICE_CATEGORY.OFFICE_PAINTING && !officePaintName.includes(data.name)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
+  }
+
+  if (data.category === ENUM_SERVICE_CATEGORY.SHOP_PAINTING && !shopPaintName.includes(data.name)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "This service, we don't provide");
+  }
+
+  // Check service is exist or not
+    const isServiceExist = await prisma.service.findUnique({
+        where: {
+            name: data.name
+        }
+    });
+    if(isServiceExist){
+        throw new ApiError( httpStatus.BAD_REQUEST, "Service already exist")
+    }
+
+    // Update service data
+    const service = await prisma.service.update({
+        where: {
+            id: payload
+        },
+        data
+    });
+
+    if(!service){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Service did not found");
+    }
+
+    return service;
+}
+
+// Delete service by id
+const deleteServiceById = async ( payload: string ): Promise<Service> => {
+    const service = await prisma.service.delete({
+        where: {
+            id: payload
+        }
+    });
+
+    if(!service){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Service did not found");
+    }
+
+    return service;
+}
+
 export const PaintingService = {
     createService,
-    getAllServices
+    getAllServices,
+    getServiceById,
+    updateServiceById,
+    deleteServiceById
 };
