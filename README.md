@@ -3,17 +3,19 @@
 ## Description
 <p>This <em>Painting Booking and Management Service</em> is a backend boilerplate for Node.js, Express.js, and Prisma ORM. It is a comprehensive online platform backend project that allows users to book services and manage their bookings. It is built with Node.js, Express.js, and Prisma ORM. It also includes authentication, authorization, and role-based access control.</p>
 
+### This project [Live Site](https://painting-service-roan.vercel.app/)
+
 ### Features
 
 - [x] Implemented CRUD operations
-- [x] Implemented Authentication and Authorization
-- [x] Implemented Pagination and Filtering
-- [x] Implemented $transaction for logical groups of processing data in Mongodb that needs to encapsulate several operations.
-- [x] Implemented Zod for validation
-- [x] Implemented JWT for authentication
-- [x] Implemented Bcrypt for hashing password
-- [x] Implemented Prisma for ORM
-- [x] Implemented Typescript for type checking
+- [x] Used Authentication and Authorization
+- [x] Handled Pagination and Filtering
+- [x] Process data by $transaction for logical groups of processing data in Mongodb that needs to encapsulate several operations.
+- [x] Validate data by Zod
+- [x] Secured authentication by JWT
+- [x] Password encrypted by Bcrypt
+- [x] For ORM coded by Prisma 
+- [x] Typescript for type checking
 
 ### Technologies Used
 
