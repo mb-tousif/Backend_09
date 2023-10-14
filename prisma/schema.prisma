@@ -136,15 +136,15 @@ model Feedback {
 model Notification {
   id        String   @id @default(uuid())
   userId    String
-  bookingId String
-  paymentId String
+  bookingId String?
+  paymentId String?
   message   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   users    User    @relation(fields: [userId], references: [id])
-  bookings Booking @relation(fields: [bookingId], references: [id])
-  payments Payment @relation(fields: [paymentId], references: [id])
+  bookings Booking? @relation(fields: [bookingId], references: [id])
+  payments Payment? @relation(fields: [paymentId], references: [id])
 
   @@map("notifications")
 }

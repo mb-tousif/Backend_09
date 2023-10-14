@@ -4,6 +4,7 @@ import { AuthRoutes } from '../modules/auth/Auth.routes';
 import { BookingRoutes } from '../modules/booking/Booking.routes';
 import { CartRoutes } from '../modules/cart/Cart.routes';
 import { FeedbackRoutes } from '../modules/feedback/Feedback.routes';
+import { NotificationRoutes } from '../modules/notification/Notification.routes';
 import { ScheduleRoutes } from '../modules/schedule/Schedule.routes';
 import { PaintingRoutes } from '../modules/service/Painting.routes';
 import { SuperAdminRoutes } from '../modules/superAdmin/SuperAdmin.routes';
@@ -47,6 +48,10 @@ const moduleRoutes = [
   {
     path: "/feedbacks",
     routes: FeedbackRoutes
+  },
+  {
+    path: "/notifications",
+    routes: NotificationRoutes
   },
 ];
 

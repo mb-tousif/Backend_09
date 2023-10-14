@@ -107,4 +107,12 @@
 - [x] Update Blog By Id `PATCH /api/v1/blogs/update-blog/:id` [ Only Admin and Super Admin ]
 - [x] Delete Blog By Id `DELETE /api/v1/blogs/delete-blog/:id` [ Only Admin and Super Admin ]
 
+#### Payment
+
+- [x] Create Payment `POST /api/v1/payments/create-payment` [ Only User ]
+- [x] Get All Payments `GET /api/v1/payments/all-payments` [ Only Admin and Super Admin ]
+- [x] Get Payment By Id `GET /api/v1/payments/:id` [ All users ]
+- [x] Update Payment By Id `PATCH /api/v1/payments/update-payment/:id` [ Only Admin and Super Admin ]
+- [x] Delete Payment By Id `DELETE /api/v1/payments/delete-payment/:id` [ Only Admin and Super Admin ]
+
 Happy coding!

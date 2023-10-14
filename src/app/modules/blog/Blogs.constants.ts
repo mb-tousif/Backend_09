@@ -1,6 +1,5 @@
 
+export const BlogsSearchAbleField:string[]= [ "userId", "title" ];
 
-export const BlogsSearchAbleField:string[]= [ "" ];
-
-export const BlogsFilterAbleField:string[]= [ "search" ];
+export const BlogsFilterAbleField:string[]= [ "search", "userId", "title" ];
 

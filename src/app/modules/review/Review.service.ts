@@ -6,7 +6,7 @@ import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import prisma from "../../../shared/prisma";
-import { ReviewFilterAbleField } from "./Review.constants";
+import { ReviewSearchAbleField } from "./Review.constants";
 import { TReviewFilterableOptions } from "./Review.interfaces";
 
 // Post Review data to database
@@ -55,7 +55,7 @@ const getAllReviews = async (
   const andCondition = [];
   if (search) {
     andCondition.push({
-      OR: ReviewFilterAbleField.map((field) => ({
+      OR: ReviewSearchAbleField.map((field) => ({
         [field.toString()]: {
           contains: search,
           mode: "insensitive",

@@ -15,6 +15,7 @@ export enum ENUM_PAYMENT_STATUS {
   PENDING = "Pending",
   PARTIALLY_PAID = "Partially Paid",
   PAID = "Paid",
+  REFUNDED = "Refunded",
 }
 
 enum ENUM_User_Status {

@@ -113,12 +113,15 @@ const getScheduleById = async (ScheduleId: string): Promise<Schedule> => {
 };
 
 // Update Schedule by id
-const updateScheduleById = async ( ScheduleId: string, payload: Schedule): Promise<Schedule> => {
+const updateScheduleById = async ( scheduleId: string, payload: Schedule): Promise<Schedule> => {
   // Handle Schedule is already completed
   const isCompleted = await prisma.schedule.findFirst({
     where: {
-      id: ScheduleId,
+      id: scheduleId,
       status: "Completed",
+    },
+    include: {
+      bookings: true,
     },
   });
   if (isCompleted) {
@@ -128,18 +131,32 @@ const updateScheduleById = async ( ScheduleId: string, payload: Schedule): Promi
     );
   }
 
-  const Schedule = await prisma.schedule.update({
+  const result = await prisma.schedule.update({
     where: {
-      id: ScheduleId,
+      id: scheduleId,
     },
     data: payload,
+    include: {
+      bookings: true,
+    },
   });
 
-  if (!Schedule) {
+  // Handle Schedule notification if status is changed
+  if (payload.status !== "Pending") {
+    await prisma.notification.create({
+      data: {
+        message: `Your Schedule status is changed to ${payload.status}`,
+        bookingId: payload.bookingId,
+        userId: result.bookings.userId,
+      },
+    });
+  }
+
+  if (!result) {
     throw new ApiError(httpStatus.NOT_FOUND, "Schedule did not found");
   }
 
-  return Schedule;
+  return result;
 };
 
 // Delete Schedule by id

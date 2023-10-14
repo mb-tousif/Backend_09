@@ -122,19 +122,6 @@ const getBlogsById = async (blogId: string): Promise<Blogs> => {
 
 // Update Blogs by id
 const updateBlogsById = async ( blogId: string, payload: Blogs): Promise<Blogs> => {
-  // Handle Blogs is already completed
-  const isCompleted = await prisma.blogs.findFirst({
-    where: {
-      id: blogId,
-    },
-  });
-  if (isCompleted) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Blogs already completed now you can not update it"
-    );
-  }
-
   const result = await prisma.blogs.update({
     where: {
       id: blogId,
