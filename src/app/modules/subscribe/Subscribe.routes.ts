@@ -15,7 +15,6 @@ router.get(
 
 router.post(
     '/create-subscribe',
-    auth(ENUM_USER_ROLE.USER),
     validateRequest(SubscribeValidation.postValidation),
     SubscribeController.createSubscribe
 );

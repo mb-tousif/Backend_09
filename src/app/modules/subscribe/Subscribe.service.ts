@@ -15,6 +15,10 @@ const createSubscribe = async (payload: Subscribe): Promise<Subscribe> => {
     },
   });
 
+  if (isExist) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "You already subscribed this service");
+  }
+
   const result = await prisma.subscribe.create({
     data: payload,
   });
