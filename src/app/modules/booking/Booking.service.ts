@@ -20,6 +20,20 @@ const createBooking = async (payload: Booking): Promise<Booking> => {
     throw new ApiError(httpStatus.BAD_REQUEST, "User is blocked or inactive");
   }
 
+  // Handle Cart data if service status is not available
+  const serviceStatus = await prisma.service.findFirst({
+    where: {
+      id: payload.serviceId,
+    },
+  });
+
+  if (serviceStatus?.status !== "Available") {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Service is not available for booking"
+    );
+  }
+
   // Handle duplicate booking Data
   const booking = await prisma.booking.create({
     data: payload,

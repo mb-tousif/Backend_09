@@ -10,6 +10,17 @@ import { TCartFilterableOptions } from "./Cart.interfaces";
 
 // Post Cart data to database
 const createCart = async (payload: Cart): Promise<Cart> =>{
+    // Handle Cart data if service status is not available
+    const serviceStatus = await prisma.service.findFirst({
+        where: {
+            id: payload.serviceId
+        }
+    });
+
+    if ( serviceStatus?.status !== "Available"){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Service is not available to add cart");
+    };
+
     // Check Cart is already exist with same user and service
     const isExist = await prisma.cart.findFirst({
         where: {
