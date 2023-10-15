@@ -2,7 +2,6 @@ import { z } from "zod";
 
 const postValidation = z.object({
   body: z.object({
-    userId: z.string().uuid(),
     serviceId: z.string().uuid(),
     status: z.enum(
       ["Pending", "Confirmed", "Rejected", "Completed"],

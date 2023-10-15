@@ -2,7 +2,6 @@ import { z } from "zod";
 
 const postValidation = z.object({
     body: z.object({
-        userId: z.string().uuid(),
         serviceId: z.string().uuid(),
         quantity: z.number().int().positive().optional(),
         totalPrice: z.number().int().positive(),

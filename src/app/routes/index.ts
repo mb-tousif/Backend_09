@@ -1,12 +1,14 @@
 import express from 'express';
 import { AdminRoutes } from '../modules/admin/Admin.routes';
 import { AuthRoutes } from '../modules/auth/Auth.routes';
+import { BlogsRoutes } from '../modules/blog/Blogs.routes';
 import { BookingRoutes } from '../modules/booking/Booking.routes';
 import { CartRoutes } from '../modules/cart/Cart.routes';
 import { FeedbackRoutes } from '../modules/feedback/Feedback.routes';
 import { NotificationRoutes } from '../modules/notification/Notification.routes';
 import { ScheduleRoutes } from '../modules/schedule/Schedule.routes';
 import { PaintingRoutes } from '../modules/service/Painting.routes';
+import { SubscribeRoutes } from '../modules/subscribe/Subscribe.routes';
 import { SuperAdminRoutes } from '../modules/superAdmin/SuperAdmin.routes';
 import { UserRoutes } from '../modules/user/User.routes';
 
@@ -53,6 +55,14 @@ const moduleRoutes = [
     path: "/notifications",
     routes: NotificationRoutes
   },
+  {
+    path: "/blogs",
+    routes: BlogsRoutes
+  },
+  {
+    path: "/subscribes",
+    routes: SubscribeRoutes
+  }
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.routes));

@@ -2,11 +2,6 @@ import { z } from "zod";
 
 const postValidation = z.object({
   body: z.object({
-    userId: z
-      .string({
-        required_error: "userId is required",
-      })
-      .uuid(),
     title: z
       .string({
         required_error: "title is required",
