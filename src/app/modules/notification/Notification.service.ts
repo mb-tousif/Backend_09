@@ -1,7 +1,6 @@
-
-
 import { Notification, Prisma } from "@prisma/client";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
@@ -11,11 +10,12 @@ import { NotificationSearchAbleField } from "./Notification.constants";
 import { TNotificationFilterableOptions } from "./Notification.interfaces";
 
 // Post Notification data to database
-const createNotification = async (payload: Notification): Promise<Notification> => {
+const createNotification = async ( user:JwtPayload | null,payload: Notification): Promise<Notification> => {
+
    // Check user is blocked or not
   const isActive = await prisma.user.findFirst({
     where: {
-      id: payload.userId,
+      id: user?.id,
     },
   });
   if (isActive?.status === "Blocked" || isActive?.status === "Inactive") {
@@ -23,7 +23,12 @@ const createNotification = async (payload: Notification): Promise<Notification> 
   }
 
   const result = await prisma.notification.create({
-    data: payload,
+    data: {
+      userId: user?.id,
+      message: payload.message,
+      paymentId: payload.paymentId || null,
+      bookingId: payload.bookingId  || null,
+    },
   });
 
   if (!result) {

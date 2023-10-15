@@ -10,8 +10,9 @@ import { NotificationService } from "./Notification.service";
 
 // Create and Save new Notification
 const createNotification = catchAsync(async (req: Request, res: Response) => {
-    const payload = req.body;
-    const result = await NotificationService.createNotification(payload);
+  const user = req.user;  
+  const { ...payload }= req.body;
+    const result = await NotificationService.createNotification( user, payload);
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,

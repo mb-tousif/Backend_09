@@ -10,8 +10,9 @@ import { FeedbackService } from "./Feedback.service";
 
 // Create and Save new Feedback
 const createFeedback = catchAsync(async (req: Request, res: Response) => {
-    const payload = req.body;
-    const result = await FeedbackService.createFeedback(payload);
+  const user = req.user;  
+  const { ...payload} = req.body;
+    const result = await FeedbackService.createFeedback( user, payload);
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,

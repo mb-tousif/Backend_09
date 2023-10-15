@@ -1,5 +1,6 @@
 import { Blogs, Prisma } from "@prisma/client";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
@@ -9,11 +10,11 @@ import { BlogsSearchAbleField } from "./Blogs.constants";
 import { TBlogsFilterableOptions } from "./Blogs.interfaces";
 
 // Post Blogs data to database
-const createBlogs = async (payload: Blogs): Promise<Blogs> => {
+const createBlogs = async (user: JwtPayload | null, payload: Blogs): Promise<Blogs> => {
   // Check user is blocked or not
   const isActive = await prisma.user.findFirst({
     where: {
-      id: payload.userId,
+      id: user?.id,
     },
   });
   if (isActive?.status === "Blocked" || isActive?.status === "Inactive") {
@@ -31,7 +32,12 @@ const createBlogs = async (payload: Blogs): Promise<Blogs> => {
   }
 
   const result = await prisma.blogs.create({
-    data: payload,
+    data: {
+      userId: user?.id,
+      title: payload.title,
+      content: payload.content,
+      imgUrl: payload.imgUrl,
+    }
   });
 
   if (!result) {

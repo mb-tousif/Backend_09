@@ -1,7 +1,7 @@
 # This project is for Painting Booking and Management Service
 
 ## Description
-<p>This <em>Painting Booking and Management Service</em> is a backend boilerplate for Node.js, Express.js, and Prisma ORM. It is a comprehensive online platform backend project that allows users to book services and manage their bookings. It is built with Node.js, Express.js, and Prisma ORM. It also includes authentication, authorization, and role-based access control.</p>
+<p>This <em>Painting Booking and Management Service</em> is a backend project by Node.js, Express.js, and Prisma ORM. It is a comprehensive online platform backend that allows users to book services and manage their cart, bookings, notifications, payments.</p>
 
 ### This project [Live Site](https://painting-service-roan.vercel.app/)
 
@@ -96,6 +96,14 @@
 - [x] Update Review By Id `PATCH /api/v1/reviews/update-review/:id` [ Only Admin and Super Admin ]
 - [x] Delete Review By Id `DELETE /api/v1/reviews/delete-review/:id` [ Only Admin and Super Admin ]
 
+#### Notification
+
+- [x] Create Notification `POST /api/v1/notifications/create-notification` [ Only Admin and Super Admin ]
+- [x] Get All Notifications `GET /api/v1/notifications/all-notifications` [ All users ]
+- [x] Get Notification By Id `GET /api/v1/notifications/:id` [ All users ]
+- [x] Update Notification By Id `PATCH /api/v1/notifications/update-notification/:id` [ Only Admin and Super Admin ]
+- [x] Delete Notification By Id `DELETE /api/v1/notifications/delete-notification/:id` [ Only Admin and Super Admin ]
+
 #### Feedback
 
 - [x] Create Feedback `POST /api/v1/feedbacks/create-feedback` [ Only User ]
@@ -119,5 +127,11 @@
 - [x] Get Payment By Id `GET /api/v1/payments/:id` [ All users ]
 - [x] Update Payment By Id `PATCH /api/v1/payments/update-payment/:id` [ Only Admin and Super Admin ]
 - [x] Delete Payment By Id `DELETE /api/v1/payments/delete-payment/:id` [ Only Admin and Super Admin ]
+
+#### Subscription
+
+- [x] Create Subscription `POST /api/v1/subscribes/create-subscribe` [ Only User ]
+- [x] Get All Subscriptions `GET /api/v1/subscribes/all-subscribes` [ Only Admin and Super Admin ]
+- [x] Delete Subscription By Id `DELETE /api/v1/subscribes/:id` [ Only Admin and Super Admin ]
 
 Happy coding!

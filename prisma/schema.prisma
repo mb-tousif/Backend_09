@@ -10,7 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -180,4 +179,13 @@ model Payment {
   bookings Booking @relation(fields: [bookingId], references: [id])
 
   @@map("payments")
+}
+
+model Subscribe {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("subscribes")
 }

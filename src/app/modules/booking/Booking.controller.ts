@@ -9,8 +9,9 @@ import { BookingService } from "./Booking.service";
 
 // Create and Save new Booking
 const createBooking = catchAsync(async (req: Request, res: Response) => {
-    const payload = req.body;
-    const result = await BookingService.createBooking(payload);
+  const user = req.user;  
+  const {...payload} = req.body;
+    const result = await BookingService.createBooking( user, payload);
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,

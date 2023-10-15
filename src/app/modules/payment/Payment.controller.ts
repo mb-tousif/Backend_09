@@ -9,8 +9,9 @@ import { PaymentService } from "./Payment.service";
 
 // Create and Save new Payment
 const createPayment = catchAsync(async (req: Request, res: Response) => {
-    const payload = req.body;
-    const result = await PaymentService.createPayment(payload);
+    const user = req.user;
+    const {...payload} = req.body;
+    const result = await PaymentService.createPayment(user, payload);
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,

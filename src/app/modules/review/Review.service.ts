@@ -1,6 +1,7 @@
 
 import { Prisma, Review } from "@prisma/client";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
@@ -10,11 +11,14 @@ import { ReviewSearchAbleField } from "./Review.constants";
 import { TReviewFilterableOptions } from "./Review.interfaces";
 
 // Post Review data to database
-const createReview = async (payload: Review): Promise<Review> => {
+const createReview = async (
+  user: JwtPayload | null,
+  payload: Review
+): Promise<Review> => {
   // Check user is blocked or not
   const isActive = await prisma.user.findFirst({
     where: {
-      id: payload.userId,
+      id: user?.id,
     },
   });
   if (isActive?.status === "Blocked" || isActive?.status === "Inactive") {
@@ -23,7 +27,7 @@ const createReview = async (payload: Review): Promise<Review> => {
   // Check Review is already exist with same user and service
   const isExist = await prisma.review.findFirst({
     where: {
-      userId: payload.userId,
+      userId: user?.id,
       serviceId: payload.serviceId,
     },
   });
@@ -31,7 +35,12 @@ const createReview = async (payload: Review): Promise<Review> => {
     throw new ApiError(httpStatus.BAD_REQUEST, "Review is already exist");
   }
   const result = await prisma.review.create({
-    data: payload,
+    data:{
+      userId: user?.id,
+      serviceId: payload.serviceId,
+      rating: payload.rating,
+      comment: payload.comment,
+    },
   });
 
   if (!result) {
@@ -107,10 +116,10 @@ const getAllReviews = async (
 };
 
 // Get Review by id
-const getReviewById = async (ReviewId: string): Promise<Review> => {
+const getReviewById = async (reviewId: string): Promise<Review> => {
   const result = await prisma.review.findUnique({
     where: {
-      id: ReviewId,
+      id: reviewId,
     },
   });
 
@@ -122,10 +131,10 @@ const getReviewById = async (ReviewId: string): Promise<Review> => {
 };
 
 // Update Review by id
-const updateReviewById = async ( ReviewId: string, payload: Review): Promise<Review> => {
+const updateReviewById = async ( reviewId: string, payload: Review): Promise<Review> => {
   const result = await prisma.review.update({
     where: {
-      id: ReviewId,
+      id: reviewId,
     },
     data: payload,
   });
@@ -138,10 +147,10 @@ const updateReviewById = async ( ReviewId: string, payload: Review): Promise<Rev
 };
 
 // Delete Review by id
-const deleteReviewById = async (ReviewId: string): Promise<Review> => {
+const deleteReviewById = async (reviewId: string): Promise<Review> => {
   const result = await prisma.review.delete({
     where: {
-      id: ReviewId,
+      id: reviewId,
     },
   });
 

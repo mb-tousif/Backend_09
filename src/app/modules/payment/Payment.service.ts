@@ -1,5 +1,6 @@
 import { Payment, Prisma } from "@prisma/client";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
@@ -9,11 +10,14 @@ import { PaymentSearchAbleField } from "./Payment.constants";
 import { TPaymentFilterableOptions } from "./Payment.interfaces";
 
 // Post Payment data to database
-const createPayment = async (payload: Payment): Promise<Payment> => {
+const createPayment = async (
+  user: JwtPayload | null,
+  payload: Payment
+): Promise<Payment> => {
   // Check user is blocked or not
   const isActive = await prisma.user.findFirst({
     where: {
-      id: payload.userId,
+      id: user?.id,
     },
   });
   if (isActive?.status === "Blocked" || isActive?.status === "Inactive") {
@@ -21,7 +25,12 @@ const createPayment = async (payload: Payment): Promise<Payment> => {
   }
 
   const result = await prisma.payment.create({
-    data: payload,
+    data: {
+      userId: user?.id,
+      bookingId: payload.bookingId,
+      serviceId: payload.serviceId,
+      amount: payload.amount,
+    },
   });
 
   if (!result) {

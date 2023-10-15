@@ -1,5 +1,6 @@
 import { Feedback, Prisma } from "@prisma/client";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
@@ -9,11 +10,11 @@ import { FeedbackSearchAbleField } from "./Feedback.constants";
 import { TFeedbackFilterableOptions } from "./Feedback.interfaces";
 
 // Post Feedback data to database
-const createFeedback = async (payload: Feedback): Promise<Feedback> => {
+const createFeedback = async ( user:JwtPayload | null, payload: Feedback): Promise<Feedback> => {
   // Check user is blocked or not
   const isActive = await prisma.user.findFirst({
     where: {
-      id: payload.userId,
+      id: user?.id,
     },
   });
   if (isActive?.status === "Blocked" || isActive?.status === "Inactive") {
@@ -21,7 +22,10 @@ const createFeedback = async (payload: Feedback): Promise<Feedback> => {
   }
 
   const result = await prisma.feedback.create({
-    data: payload,
+    data: {
+      userId: user?.id,
+      comment: payload.comment,
+    },
   });
 
   if (!result) {

@@ -10,8 +10,9 @@ import { ReviewService } from "./Review.service";
 
 // Create and Save new Review
 const createReview = catchAsync(async (req: Request, res: Response) => {
-    const payload = req.body;
-    const result = await ReviewService.createReview(payload);
+    const user = req.user;
+    const { ...payload }= req.body;
+    const result = await ReviewService.createReview(user, payload);
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,

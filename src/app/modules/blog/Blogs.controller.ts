@@ -10,8 +10,9 @@ import { BlogsService } from "./Blogs.service";
 
 // Create and Save new Blogs
 const createBlogs = catchAsync(async (req: Request, res: Response) => {
-    const payload = req.body;
-    const result = await BlogsService.createBlogs(payload);
+  const user = req.user;
+  const {...payload} = req.body;
+    const result = await BlogsService.createBlogs( user, payload);
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,

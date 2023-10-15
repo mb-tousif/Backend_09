@@ -1,5 +1,6 @@
 import { Cart, Prisma } from "@prisma/client";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
@@ -9,7 +10,7 @@ import { cartSearchableFields } from "./Cart.constants";
 import { TCartFilterableOptions } from "./Cart.interfaces";
 
 // Post Cart data to database
-const createCart = async (payload: Cart): Promise<Cart> =>{
+const createCart = async (user:  JwtPayload | null, payload: Cart): Promise<Cart> =>{
     // Handle Cart data if service status is not available
     const serviceStatus = await prisma.service.findFirst({
         where: {
@@ -24,7 +25,7 @@ const createCart = async (payload: Cart): Promise<Cart> =>{
     // Check Cart is already exist with same user and service
     const isExist = await prisma.cart.findFirst({
         where: {
-            userId: payload.userId,
+            userId: user?.id,
             serviceId: payload.serviceId
         }
     });
@@ -32,7 +33,7 @@ const createCart = async (payload: Cart): Promise<Cart> =>{
     // Check user is blocked or not
     const isActive = await prisma.user.findFirst({
       where: {
-        id: payload.userId,
+        id: user?.id,
       },
     });
     if ( isActive?.status === "Blocked" || isActive?.status === "Inactive"){
@@ -74,7 +75,12 @@ const createCart = async (payload: Cart): Promise<Cart> =>{
 
     // Posting Cart data to database
     const result = await prisma.cart.create({
-        data: payload
+        data: {
+            userId: user?.id,
+            serviceId: payload.serviceId,
+            quantity: payload.quantity,
+            totalPrice: payload.totalPrice
+        }
     });
 
     if(!result){

@@ -1,5 +1,6 @@
 import { Booking, Prisma } from "@prisma/client";
 import httpStatus from "http-status";
+import { JwtPayload } from "jsonwebtoken";
 import ApiError from "../../../errors/ApiError";
 import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
@@ -9,11 +10,11 @@ import { BookingFilterAbleField } from "./Booking.constants";
 import { TBookingFilterableOptions } from "./Booking.interfaces";
 
 // Post Booking data to database
-const createBooking = async (payload: Booking): Promise<Booking> => {
+const createBooking = async ( user: JwtPayload | null, payload: Booking): Promise<Booking> => {
   // Handle user is blocked or not
   const isActive = await prisma.user.findFirst({
     where: {
-      id: payload.userId,
+      id: user?.id,
     },
   });
   if (isActive?.status === "Blocked" || isActive?.status === "Inactive") {
@@ -36,7 +37,10 @@ const createBooking = async (payload: Booking): Promise<Booking> => {
 
   // Handle duplicate booking Data
   const booking = await prisma.booking.create({
-    data: payload,
+    data: {
+      userId: user?.id,
+      serviceId: payload.serviceId,
+    },
   });
 
   if (!booking) {

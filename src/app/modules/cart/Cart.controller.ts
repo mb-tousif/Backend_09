@@ -8,8 +8,9 @@ import { cartFilterableFields } from "./Cart.constants";
 import { CartService } from "./Cart.service";
 // Post Cart data to database
 const createCart = catchAsync(async (req: Request, res: Response) => {
-     const payload = req.body;
-    const result = await CartService.createCart(payload);
+    const user = req.user;
+    const { ...payload} = req.body;
+    const result = await CartService.createCart( user, payload);
     sendResponse(res, {
       statusCode: httpStatus.CREATED,
       success: true,
