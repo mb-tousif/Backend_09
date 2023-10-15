@@ -6,4 +6,5 @@ export type TServiceFilterableOptions = {
   price?: string | number;
   category?: string;
   schedule?: string;
+  status?: string;
 };

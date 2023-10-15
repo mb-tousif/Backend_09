@@ -1,4 +1,4 @@
-export const serviceSearchableFields: string[] = ["name", "category"];
+export const serviceSearchableFields: string[] = ["name", "category", "status"];
 
 export const serviceFilterableFields: string[] = [
   "search",
@@ -7,7 +7,8 @@ export const serviceFilterableFields: string[] = [
   "price",
   "schedule",
   "minPrice",
-  "maxPrice"
+  "maxPrice",
+  "status",
 ];
 
 export enum ENUM_SERVICE_CATEGORY {
