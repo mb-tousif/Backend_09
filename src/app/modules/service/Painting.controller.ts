@@ -31,6 +31,32 @@ const getAllServices = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+// Get all Available services
+const getAllAvailableServices = catchAsync(async (req: Request, res: Response) => {
+     const options = pick(req.query, paginationFields);
+     const filterOptions = pick(req.query, serviceFilterableFields);
+    const result = await PaintingService.getAllAvailableServices(options, filterOptions);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Upcoming all services fetched",
+      data: result,
+    });
+});
+
+// Get all Upcoming services
+const getAllUpcomingServices = catchAsync(async (req: Request, res: Response) => {
+   const options = pick(req.query, paginationFields);
+   const filterOptions = pick(req.query, serviceFilterableFields);  
+  const result = await PaintingService.getAllUpcomingServices( options, filterOptions);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Upcoming all services fetched",
+      data: result,
+    });
+});
+
 // Get service by id
 const getServiceById = catchAsync(async (req: Request, res: Response) => {
     const serviceId = req.params.id;
@@ -71,6 +97,8 @@ const deleteServiceById = catchAsync(async (req: Request, res: Response) => {
 export const PaintingController = {
     createService,
     getAllServices,
+    getAllAvailableServices,
+    getAllUpcomingServices,
     getServiceById,
     updateServiceById,
     deleteServiceById

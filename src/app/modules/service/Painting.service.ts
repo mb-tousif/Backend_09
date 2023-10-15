@@ -113,6 +113,138 @@ const getAllServices = async (
   };
 };
 
+// Get all Available services with pagination and filtration
+const getAllAvailableServices = async (
+  options: IPaginationOptions,
+  payload: TServiceFilterableOptions
+): Promise<IGenericResponse<Partial<Service>[]>> => {
+  // Handle pagination, custom query, search and filtration
+  const { search, minPrice, maxPrice, ...filterData } = payload;
+  const { page, limit, sortBy, sortOrder } = paginationHelpers.calculatePagination(options);
+  const query: Prisma.ServiceFindManyArgs = {
+    where: {
+      status: {
+        contains: "Available",
+      },
+      AND: [
+        minPrice ? { price: { gte: parseFloat(minPrice.toString()) } } : {},
+        maxPrice ? { price: { lte: parseFloat(maxPrice.toString()) } } : {},
+        search
+          ? {
+              OR: serviceSearchableFields.map((field) => ({
+                [field.toString()]: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              })),
+            }
+          : {},
+        filterData
+          ? {
+              AND: Object.keys(filterData).map((field) => ({
+                [field]: {
+                  equals: (filterData as any)[field],
+                },
+              })),
+            }
+          : {},
+      ],
+    },
+    orderBy: {
+      [sortBy as string]: sortOrder,
+    },
+  };
+
+  const services = await prisma.service.findMany({
+    where: query.where,
+    orderBy: query.orderBy,
+    skip: query.skip,
+    take: query.take,
+  });
+
+  // Throw error if any service data is not found
+  if (services.length <= 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Any Painting service is not found");
+  }
+  const total = await prisma.service.count({
+    where: query.where,
+  });
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: services,
+  };
+};
+
+// Get all Upcoming services with pagination and filtration
+const getAllUpcomingServices = async (
+  options: IPaginationOptions,
+  payload: TServiceFilterableOptions
+): Promise<IGenericResponse<Partial<Service>[]>> => {
+  // Handle pagination, custom query, search and filtration
+  const { search, minPrice, maxPrice, ...filterData } = payload;
+  const { page, limit, sortBy, sortOrder } = paginationHelpers.calculatePagination(options);
+  const query: Prisma.ServiceFindManyArgs = {
+    where: {
+      status: {
+        contains: "Upcoming",
+      },
+      AND: [
+        minPrice ? { price: { gte: parseFloat(minPrice.toString()) } } : {},
+        maxPrice ? { price: { lte: parseFloat(maxPrice.toString()) } } : {},
+        search
+          ? {
+              OR: serviceSearchableFields.map((field) => ({
+                [field.toString()]: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              })),
+            }
+          : {},
+        filterData
+          ? {
+              AND: Object.keys(filterData).map((field) => ({
+                [field]: {
+                  equals: (filterData as any)[field],
+                },
+              })),
+            }
+          : {},
+      ],
+    },
+    orderBy: {
+      [sortBy as string]: sortOrder,
+    },
+  };
+
+  const services = await prisma.service.findMany({
+    where: query.where,
+    orderBy: query.orderBy,
+    skip: query.skip,
+    take: query.take,
+  });
+
+  // Throw error if any service data is not found
+  if (services.length <= 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Any Painting service is not found");
+  }
+  const total = await prisma.service.count({
+    where: query.where,
+  });
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: services,
+  };
+};
+
 // Get service by id
 const getServiceById = async ( payload: string ): Promise<Service> => {
     const service = await prisma.service.findUnique({
@@ -196,6 +328,8 @@ const deleteServiceById = async ( payload: string ): Promise<Service> => {
 export const PaintingService = {
     createService,
     getAllServices,
+    getAllUpcomingServices,
+    getAllAvailableServices,
     getServiceById,
     updateServiceById,
     deleteServiceById
