@@ -4,7 +4,7 @@ import { paginationFields } from "../../../constants/pagination";
 import catchAsync from "../../../shared/catchAsync";
 import pick from "../../../shared/pick";
 import sendResponse from "../../../shared/sendResponse";
-import { serviceFilterableFields } from "./Painting.constants";
+import { serviceFilterableFields, serviceFilterableFieldsForPublicApi } from "./Painting.constants";
 import { PaintingService } from "./Painting.service";
 
 const createService = catchAsync(async (req: Request, res: Response) => {
@@ -34,7 +34,7 @@ const getAllServices = catchAsync(async (req: Request, res: Response) => {
 // Get all Available services
 const getAllAvailableServices = catchAsync(async (req: Request, res: Response) => {
      const options = pick(req.query, paginationFields);
-     const filterOptions = pick(req.query, serviceFilterableFields);
+     const filterOptions = pick(req.query, serviceFilterableFieldsForPublicApi);
     const result = await PaintingService.getAllAvailableServices(options, filterOptions);
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -47,7 +47,7 @@ const getAllAvailableServices = catchAsync(async (req: Request, res: Response) =
 // Get all Upcoming services
 const getAllUpcomingServices = catchAsync(async (req: Request, res: Response) => {
    const options = pick(req.query, paginationFields);
-   const filterOptions = pick(req.query, serviceFilterableFields);  
+   const filterOptions = pick(req.query, serviceFilterableFieldsForPublicApi);  
   const result = await PaintingService.getAllUpcomingServices( options, filterOptions);
     sendResponse(res, {
       statusCode: httpStatus.OK,

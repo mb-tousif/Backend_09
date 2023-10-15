@@ -1,4 +1,5 @@
 export const serviceSearchableFields: string[] = ["name", "category", "status"];
+export const serviceSearchableFieldsForPublicApi: string[] = ["name", "category"];
 
 export const serviceFilterableFields: string[] = [
   "search",
@@ -9,6 +10,16 @@ export const serviceFilterableFields: string[] = [
   "minPrice",
   "maxPrice",
   "status",
+];
+
+export const serviceFilterableFieldsForPublicApi: string[] = [
+  "search",
+  "name",
+  "category",
+  "price",
+  "schedule",
+  "minPrice",
+  "maxPrice",
 ];
 
 export enum ENUM_SERVICE_CATEGORY {
