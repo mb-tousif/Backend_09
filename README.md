@@ -46,11 +46,12 @@
 
 #### Admin
 
+- [x] Create All User `POST /api/v1/admins/create-all-user` [ Only Super Admin ]
 - [x] Update User By Id `PATCH /api/v1/admins/update-user/:id` [ Only Admin can update any user for it's permission field ]
 
 #### Super Admin
 
-- [x] Create Admin `POST /api/v1/super-admins/createAdmin` [ Only Super Admin ]
+- [x] Create Management `POST /api/v1/super-admins/create-management` [ Only Super Admin ]
 - [x] Update User By Id `PATCH /api/v1/super-admins/update-user/:id` [ Super Admin can update any user data without password ]
 
 #### Painting Service

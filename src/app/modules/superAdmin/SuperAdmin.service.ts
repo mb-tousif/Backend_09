@@ -6,6 +6,10 @@ import prisma from "../../../shared/prisma";
 
 // Create user in database
 const createAdmin = async (payload: User): Promise<Partial<User>> => {
+  // Handle if user role is user
+  if (payload.role === "user") {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'User can create Admin or Super_admin');
+  }
   // Handle if user already exist
   const isExistUser = await prisma.user.findFirst({
     where: {
