@@ -130,7 +130,7 @@
 
 #### Subscription
 
-- [x] Create Subscription `POST /api/v1/subscribes/create-subscribe` [ Only User ]
+- [x] Create Subscription `POST /api/v1/subscribes/create-subscribe` [ Public Api ]
 - [x] Get All Subscriptions `GET /api/v1/subscribes/all-subscribes` [ Only Admin and Super Admin ]
 - [x] Delete Subscription By Id `DELETE /api/v1/subscribes/:id` [ Only Admin and Super Admin ]
 

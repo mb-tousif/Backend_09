@@ -8,7 +8,7 @@ import { PaymentValidation } from './Payment.zod.validation';
 const router = express.Router();
 
 router.get(
-    '/all-Payments',
+    '/all-payments',
     auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
     PaymentController.getAllPayments
 );
@@ -20,14 +20,14 @@ router.get(
 );
 
 router.post(
-    '/create-Payment',
+    '/create-payment',
     auth(ENUM_USER_ROLE.USER),
     validateRequest(PaymentValidation.postValidation),
     PaymentController.createPayment
 );
 
 router.patch(
-  "/update-Payment/:id",
+  "/update-payment/:id",
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
   validateRequest(PaymentValidation.updateValidation),
   PaymentController.updatePaymentById

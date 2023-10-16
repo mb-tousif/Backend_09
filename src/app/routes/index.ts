@@ -6,6 +6,8 @@ import { BookingRoutes } from '../modules/booking/Booking.routes';
 import { CartRoutes } from '../modules/cart/Cart.routes';
 import { FeedbackRoutes } from '../modules/feedback/Feedback.routes';
 import { NotificationRoutes } from '../modules/notification/Notification.routes';
+import { PaymentRoutes } from '../modules/payment/Payment.routes';
+import { ReviewRoutes } from '../modules/review/Review.routes';
 import { ScheduleRoutes } from '../modules/schedule/Schedule.routes';
 import { PaintingRoutes } from '../modules/service/Painting.routes';
 import { SubscribeRoutes } from '../modules/subscribe/Subscribe.routes';
@@ -17,52 +19,60 @@ const router = express.Router();
 const moduleRoutes = [
   {
     path: "/auth",
-    routes: AuthRoutes
+    routes: AuthRoutes,
   },
   {
     path: "/users",
-    routes: UserRoutes
+    routes: UserRoutes,
   },
   {
     path: "/admins",
-    routes: AdminRoutes
+    routes: AdminRoutes,
   },
   {
     path: "/super-admins",
-    routes: SuperAdminRoutes
+    routes: SuperAdminRoutes,
   },
   {
     path: "/services",
-    routes: PaintingRoutes
+    routes: PaintingRoutes,
   },
   {
     path: "/carts",
-    routes: CartRoutes
+    routes: CartRoutes,
   },
   {
     path: "/bookings",
-    routes: BookingRoutes
+    routes: BookingRoutes,
   },
   {
     path: "/schedules",
-    routes: ScheduleRoutes
+    routes: ScheduleRoutes,
+  },
+  {
+    path: "/payments",
+    routes: PaymentRoutes,
+  },
+  {
+    path: "/reviews",
+    routes: ReviewRoutes,
   },
   {
     path: "/feedbacks",
-    routes: FeedbackRoutes
+    routes: FeedbackRoutes,
   },
   {
     path: "/notifications",
-    routes: NotificationRoutes
+    routes: NotificationRoutes,
   },
   {
     path: "/blogs",
-    routes: BlogsRoutes
+    routes: BlogsRoutes,
   },
   {
     path: "/subscribes",
-    routes: SubscribeRoutes
-  }
+    routes: SubscribeRoutes,
+  },
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.routes));
