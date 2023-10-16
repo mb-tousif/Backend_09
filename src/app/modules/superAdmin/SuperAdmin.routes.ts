@@ -9,7 +9,7 @@ import { SuperAdminController } from './SuperAdmin.controller';
 
 const router = express.Router();
 
-router.post('/createAdmin',
+router.post('/create-admin',
     auth( ENUM_USER_ROLE.SUPER_ADMIN ),
     validateRequest( AuthValidation.signInValidation ),
     SuperAdminController.createAdmin

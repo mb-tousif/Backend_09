@@ -21,7 +21,7 @@ const signInValidation = z.object({
       .max(255),
     role: z.enum(['User', 'Admin', 'Super Admin'], {
       required_error: 'Role is required',
-    }),
+    }).optional(),
     contact: z.string({
       required_error: 'Contact No is required',
     }),
