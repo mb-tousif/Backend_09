@@ -34,10 +34,10 @@ const getAllCarts = catchAsync(async (req: Request, res: Response) => {
 
 // Get Carts by user id
 const getCartsByUserId = catchAsync(async (req: Request, res: Response) => {
-    const userId = req.params.id;
+    const user = req.user
     const options = pick(req.query, paginationFields);
     const payload = pick(req.query, cartFilterableFields);
-    const result = await CartService.getCartsByUserId( userId, options, payload);
+    const result = await CartService.getCartsByUserId( user, options, payload);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

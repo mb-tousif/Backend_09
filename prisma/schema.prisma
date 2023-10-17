@@ -15,6 +15,7 @@ model User {
   name      String
   email     String
   password  String
+  gender    String
   role      String   @default("User")
   status    String   @default("Active")
   imgUrl    String   @default("https://img.freepik.com/free-psd/3d-illustration-bald-person-with-glasses_23-2149436184.jpg")
@@ -48,22 +49,21 @@ model Service {
 
   carts     Cart[]
   bookings  Booking[]
-  schedules Schedule[]
   reviews   Review[]
 
   @@map("services")
 }
 
 model Cart {
-  id         String  @id @default(uuid())
+  id         String    @id @default(uuid())
   userId     String
   serviceId  String
-  quantity   Int      @default(1)
+  quantity   Int       @default(1)
   totalPrice Int
-  status     String   @default("Pending")
-
-  users      User    @relation(fields: [userId], references: [id])
-  services   Service @relation(fields: [serviceId], references: [id])
+  status     String    @default("Pending")
+  users      User      @relation(fields: [userId], references: [id])
+  services   Service   @relation(fields: [serviceId], references: [id])
+  bookings   Booking[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -72,39 +72,41 @@ model Cart {
 }
 
 model Booking {
-  id        String   @id @default(uuid())
-  userId    String
-  serviceId String
-  status    String   @default("Pending")
-  paymentStatus   String   @default("Pending")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(uuid())
+  userId        String
+  serviceId     String
+  cartId        String
+  schedule      String
+  status        String   @default("Pending")
+  paymentStatus String   @default("Pending")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   services      Service        @relation(fields: [serviceId], references: [id])
   users         User           @relation(fields: [userId], references: [id])
-  schedules     Schedule[]
+  carts         Cart           @relation(fields: [cartId], references: [id])
   notifications Notification[]
   payments      Payment[]
 
   @@map("bookings")
 }
 
-model Schedule {
-  id        String   @id @default(uuid())
-  bookingId String
-  serviceId String
-  duration  String
-  startDate String
-  endDate   String
-  status    String   @default("Pending")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// model Schedule {
+//   id        String   @id @default(uuid())
+//   bookingId String
+//   serviceId String
+//   duration  String
+//   startDate String
+//   endDate   String
+//   status    String   @default("Pending")
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
-  bookings Booking @relation(fields: [bookingId], references: [id])
-  services Service @relation(fields: [serviceId], references: [id])
+//   bookings Booking @relation(fields: [bookingId], references: [id])
+//   services Service @relation(fields: [serviceId], references: [id])
 
-  @@map("shedules")
-}
+//   @@map("shedules")
+// }
 
 model Review {
   id        String   @id @default(uuid())
@@ -142,7 +144,7 @@ model Notification {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users    User    @relation(fields: [userId], references: [id])
+  users    User     @relation(fields: [userId], references: [id])
   bookings Booking? @relation(fields: [bookingId], references: [id])
   payments Payment? @relation(fields: [paymentId], references: [id])
 
@@ -173,10 +175,9 @@ model Payment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  notifications Notification[]
-
   users    User    @relation(fields: [userId], references: [id])
   bookings Booking @relation(fields: [bookingId], references: [id])
+  notifications Notification[]
 
   @@map("payments")
 }

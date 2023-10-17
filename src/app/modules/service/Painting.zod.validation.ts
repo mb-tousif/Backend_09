@@ -18,7 +18,7 @@ const postValidation = z.object({
     description: z.string().min(3).max(300),
     status: z.enum(["Available", "Upcoming", "Not available"], {
       required_error: "Status field is not valid",
-    }),
+    }).optional(),
     schedule: z.string().min(3).max(255),
     imgUrl: z.string().optional(),
   }),

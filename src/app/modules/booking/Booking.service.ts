@@ -40,6 +40,8 @@ const createBooking = async ( user: JwtPayload | null, payload: Booking): Promis
     data: {
       userId: user?.id,
       serviceId: payload.serviceId,
+      cartId: payload.cartId,
+      schedule: payload.schedule,
     },
   });
 

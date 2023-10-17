@@ -14,6 +14,11 @@ router.get(
     CartController.getAllCarts
 );
 
+router.get(
+    '/user-carts',
+    auth(ENUM_USER_ROLE.USER),
+    CartController.getCartsByUserId
+);
 // Get Cart by id
 router.get(
     '/:id',
@@ -22,11 +27,6 @@ router.get(
 );
 
 // Get Carts by user id
-router.get(
-    '/user-carts',
-    auth(ENUM_USER_ROLE.USER),
-    CartController.getCartsByUserId
-);
 
 // Post Cart data to database
 router.post(

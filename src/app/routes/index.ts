@@ -8,7 +8,6 @@ import { FeedbackRoutes } from '../modules/feedback/Feedback.routes';
 import { NotificationRoutes } from '../modules/notification/Notification.routes';
 import { PaymentRoutes } from '../modules/payment/Payment.routes';
 import { ReviewRoutes } from '../modules/review/Review.routes';
-import { ScheduleRoutes } from '../modules/schedule/Schedule.routes';
 import { PaintingRoutes } from '../modules/service/Painting.routes';
 import { SubscribeRoutes } from '../modules/subscribe/Subscribe.routes';
 import { SuperAdminRoutes } from '../modules/superAdmin/SuperAdmin.routes';
@@ -44,10 +43,6 @@ const moduleRoutes = [
   {
     path: "/bookings",
     routes: BookingRoutes,
-  },
-  {
-    path: "/schedules",
-    routes: ScheduleRoutes,
   },
   {
     path: "/payments",

@@ -8,6 +8,9 @@ const userUpdateValidationField = z.object({
     contact: z.string().optional(),
     address: z.string().optional(),
     imgUrl: z.string().optional(),
+    gender: z.enum(["Male", "Female", "Other"], {
+      required_error: "Gender is required",
+    }).optional(),
   }),
 });
 

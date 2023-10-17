@@ -254,7 +254,6 @@ const getServiceById = async ( payload: string ): Promise<Service> => {
         include: {
           bookings: true,
           carts: true,
-          schedules: true,
           reviews: true,
         }
     });

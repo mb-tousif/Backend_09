@@ -4,7 +4,7 @@ const postValidation = z.object({
     body: z.object({
         serviceId: z.string().uuid(),
         quantity: z.number().int().positive().optional(),
-        totalPrice: z.number().int().positive(),
+        totalPrice: z.number().int().positive().optional(),
         status: z.enum(['Pending', 'Booked', 'Cancelled by user', 'Cancelled by admin'],{
             required_error: "Status field is invalid"
         }).optional()
