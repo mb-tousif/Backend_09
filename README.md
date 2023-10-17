@@ -39,6 +39,8 @@
 
 - [x] Create User `POST /api/v1/auth/signup` [ Only User ]
 - [x] Login User `POST /api/v1/auth/login` [ All users ]
+- [x] Reset User Password `POST /api/v1/auth/reset-password` [ Public Api ]
+- [x] User Refresh Token `POST /api/v1/auth/refresh-token` [ All users ]
 - [x] Get All Users `GET /api/v1/users/all-users` [ Only Admin and Super Admin ]
 - [x] Get User By Id `GET /api/v1/users/profile/:id` [ Only exact user ]
 - [x] Update User By Id `PATCH /api/v1/users/update-profile/:id` [ Only exact user ]

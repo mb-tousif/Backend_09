@@ -32,6 +32,20 @@ const getAllCarts = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+// Get Carts by user id
+const getCartsByUserId = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.params.id;
+    const options = pick(req.query, paginationFields);
+    const payload = pick(req.query, cartFilterableFields);
+    const result = await CartService.getCartsByUserId( userId, options, payload);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Fetched carts by user id",
+      data: result,
+    });
+});
+
 // Get Cart by id
 const getCartById = catchAsync(async (req: Request, res: Response) => {
     const cartId = req.params.id;
@@ -73,6 +87,7 @@ export const CartController = {
     createCart,
     getAllCarts,
     getCartById,
+    getCartsByUserId,
     updateCartById,
     deleteCartById
 };

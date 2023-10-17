@@ -20,6 +20,12 @@ router.post(
 );
 
 router.post(
+  '/reset-password',
+  validateRequest(AuthValidation.resetPasswordValidation),
+  AuthController.resetPassword
+);
+
+router.post(
   '/refresh-token',
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   validateRequest(AuthValidation.refreshTokenZodSchema),

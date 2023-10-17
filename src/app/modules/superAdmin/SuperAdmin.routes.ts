@@ -1,4 +1,3 @@
-
 import express from 'express';
 import { ENUM_USER_ROLE } from '../../../enums/common';
 import auth from '../../middlewares/auth';

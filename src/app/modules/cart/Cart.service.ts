@@ -155,8 +155,73 @@ const getAllCarts = async (
   };
 };
 
+// Get carts by user id
+const getCartsByUserId = async (
+  userId: string,
+  options: IPaginationOptions,
+  payload: TCartFilterableOptions ): Promise<IGenericResponse<Partial<Cart>[]>> => {
+  // Handle pagination, custom query, search and filtration
+  const { page, limit, skip, sortBy, sortOrder } = paginationHelpers.calculatePagination(options);
+  // Handle search and filter
+  const { search, ...filterData } = payload;
+  const query: Prisma.CartFindManyArgs = {
+    where: {
+      userId: {
+        contains: userId,
+      },
+      AND: [
+        search
+          ? {
+              OR: cartSearchableFields.map((field) => ({
+                [field.toString()]: {
+                  contains: search,
+                  mode: "insensitive",
+                },
+              })),
+            }
+          : {},
+        filterData
+          ? {
+              AND: Object.keys(filterData).map((field) => ({
+                [field]: {
+                  equals: (filterData as any)[field],
+                },
+              })),
+            }
+          : {},
+      ],
+    },
+    orderBy: {
+      [sortBy as string]: sortOrder,
+    },
+  };
+
+  const carts = await prisma.cart.findMany({
+    where: query.where,
+    orderBy: query.orderBy,
+    skip: query.skip,
+    take: query.take,
+});
+
+// Throw error if any service data is not found
+  if (carts.length <= 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Any Painting service is not found");
+  }
+  const total = await prisma.cart.count({
+    where: query.where,
+  });
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: carts,
+  };
+};
+
 // Get Cart by id
-const getCartById = async ( payload: string ): Promise<Cart> => {
+const getCartById = async ( payload: string): Promise<Cart> => {
     const result = await prisma.cart.findUnique({
         where: {
             id: payload
@@ -209,6 +274,7 @@ const deleteCartById = async ( payload: string ): Promise<Cart> => {
 export const CartService = {
     createCart,
     getAllCarts,
+    getCartsByUserId,
     getCartById,
     updateCartById,
     deleteCartById

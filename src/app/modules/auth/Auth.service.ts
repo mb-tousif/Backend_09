@@ -89,6 +89,41 @@ const loginUser = async (payload: User): Promise<ILoginResponse> => {
   };
 };
 
+// reset password
+const resetPassword = async (payload: User): Promise<Partial<User>> => {
+  const isExistUser = await prisma.user.findFirst({
+    where: {
+      email: payload.email,
+    },
+  });
+
+  if (!isExistUser) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'User not exist to reset password');
+  }
+
+  // Hashing password
+  payload.password = await hashPasswordHelper.hashPassword(payload.password);
+
+  const user = await prisma.user.update({
+    where: {
+      id: isExistUser.id,
+    },
+    data: {
+      password: payload.password,
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      contact: true,
+      address: true,
+      imgUrl: true,
+    },
+  });
+  return user;
+}
+
 const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   let verifiedToken = null;
   try {
@@ -131,4 +166,5 @@ export const AuthService = {
     signupUser,
     loginUser,
     refreshToken,
+    resetPassword
 };
