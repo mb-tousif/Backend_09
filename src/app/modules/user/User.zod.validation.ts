@@ -29,7 +29,7 @@ const superAdminUpdateValidationField = z.object({
     email: z.string().optional(),
     contact: z.string().optional(),
     role: z
-      .enum(["User", "Admin", "Super_admin"], {
+      .enum(["user", "admin", "Super_admin"], {
         required_error: "Role field is not valid",
       })
       .optional(),

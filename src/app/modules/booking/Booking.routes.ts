@@ -15,6 +15,12 @@ router.get(
 );
 
 router.get(
+    '/all-bookings-by-user',
+    auth(ENUM_USER_ROLE.USER),
+    BookingController.getAllBookingByUserId
+);
+
+router.get(
     '/:id',
     auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
     BookingController.getBookingById

@@ -23,7 +23,7 @@ const signInValidation = z.object({
       required_error: "Gender is required",
     }),
     role: z
-      .enum(["User", "Admin", "Super Admin"], {
+      .enum(["user", "admin", "super_admin"], {
         required_error: "Role is required",
       })
       .optional(),

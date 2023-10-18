@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 export enum ENUM_USER_ROLE {
-  SUPER_ADMIN = 'Super Admin',
-  ADMIN = 'Admin',
-  USER = 'User',
+  SUPER_ADMIN = 'super_admin',
+  ADMIN = 'admin',
+  USER = 'user',
 }
 
 export enum ENUM_Booking_Status {

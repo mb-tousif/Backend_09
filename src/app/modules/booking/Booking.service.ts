@@ -117,11 +117,32 @@ const getAllBookings = async (
   };
 };
 
+const getBookingByUserId = async (user: JwtPayload | null): Promise<Booking[]> => {
+  const booking = await prisma.booking.findMany({
+    where: {
+      userId: user?.id,
+    },
+    include: {
+      services: true,
+    },
+  });
+
+  if (!booking) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
+  }
+
+  return booking;
+}
+
 // Get Booking by id
 const getBookingById = async (bookingId: string): Promise<Booking> => {
   const booking = await prisma.booking.findUnique({
     where: {
       id: bookingId,
+    },
+    include: {
+      users: true,
+      services: true,
     },
   });
 
@@ -180,6 +201,7 @@ const deleteBookingById = async (bookingId: string): Promise<Booking> => {
 export const BookingService = {
     createBooking,
     getAllBookings,
+    getBookingByUserId,
     getBookingById,
     updateBookingById,
     deleteBookingById,

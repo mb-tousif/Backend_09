@@ -33,6 +33,19 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+// get all bookings by user id
+const getAllBookingByUserId = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const data = await BookingService.getBookingByUserId(user);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Booking list fetched successfully",
+    data: data,
+  });
+}
+);
+
 // Find a single Booking with an id
 const getBookingById = catchAsync(async (req: Request, res: Response) => {
     const bookingId = req.params.id;
@@ -73,6 +86,7 @@ const deleteBookingById = catchAsync(async (req: Request, res: Response) => {
 export const BookingController = {
     createBooking,
     getAllBookings,
+    getAllBookingByUserId,
     getBookingById,
     updateBookingById,
     deleteBookingById,

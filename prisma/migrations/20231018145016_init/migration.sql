@@ -5,7 +5,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "gender" TEXT NOT NULL,
-    "role" TEXT NOT NULL DEFAULT 'User',
+    "role" TEXT NOT NULL DEFAULT 'user',
     "status" TEXT NOT NULL DEFAULT 'Active',
     "imgUrl" TEXT NOT NULL DEFAULT 'https://img.freepik.com/free-psd/3d-illustration-bald-person-with-glasses_23-2149436184.jpg',
     "address" TEXT NOT NULL,

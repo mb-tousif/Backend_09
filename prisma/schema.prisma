@@ -16,7 +16,7 @@ model User {
   email     String
   password  String
   gender    String
-  role      String   @default("User")
+  role      String   @default("user")
   status    String   @default("Active")
   imgUrl    String   @default("https://img.freepik.com/free-psd/3d-illustration-bald-person-with-glasses_23-2149436184.jpg")
   address   String
