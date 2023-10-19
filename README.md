@@ -81,6 +81,8 @@
 - [x] Get Booking By Id `GET /api/v1/bookings/:id` [ All users ]
 - [x] Update Booking By Id `PATCH /api/v1/bookings/update-booking/:id` [ Only Admin and Super Admin ]
 - [x] Delete Booking By Id `DELETE /api/v1/bookings/delete-booking/:id` [ All users ]
+- [x] Update Booking Status By Id `PATCH /api/v1/bookings/update-booking-status-by-user/:id` [ Only User ]
+- [x] Update Booking Status By Id `PATCH /api/v1/bookings/update-booking-status-by-management/:id` [ Only Admin and Super Admin ]
 
 #### Schedule
 

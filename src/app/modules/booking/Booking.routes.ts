@@ -34,6 +34,20 @@ router.post(
 );
 
 router.patch(
+  "/update-booking-status-by-user/:id",
+  auth(ENUM_USER_ROLE.USER),
+  validateRequest(BookingValidation.changeBookingStatusByUser),
+  BookingController.changeBookingStatusByUser
+);
+
+router.patch(
+  "/update-booking-status-by-management/:id",
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  validateRequest(BookingValidation.changeBookingStatusByManagement),
+  BookingController.changeBookingStatusByManagement
+);
+
+router.patch(
   "/update-booking/:id",
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
   validateRequest(BookingValidation.updateValidation),

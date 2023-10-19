@@ -183,6 +183,74 @@ const updateBookingById = async ( bookingId: string, payload: Booking): Promise<
   return booking;
 };
 
+// Update Booking status by user
+const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Booking>): Promise<Booking> => {
+  // Handle Booking is already completed
+  const isCompleted = await prisma.booking.findFirst({
+    where: {
+      id: bookingId,
+      status: "Completed",
+    },
+  });
+  if (isCompleted) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Booking already completed now you can not update it"
+    );
+  }
+
+  const booking = await prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: payload,
+    include: {
+      users: true,
+      services: true,
+    },
+  });
+
+  if (!booking) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
+  }
+
+  return booking;
+}
+
+// Update Booking status by management
+const changeBookingStatusByManagement = async ( bookingId: string, payload: Partial<Booking>): Promise<Booking> => {
+  // Handle Booking is already completed
+  const isCompleted = await prisma.booking.findFirst({
+    where: {
+      id: bookingId,
+      status: "Completed",
+    },
+  });
+  if (isCompleted) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Booking already completed now you can not update it"
+    );
+  }
+
+  const booking = await prisma.booking.update({
+    where: {
+      id: bookingId,
+    },
+    data: payload,
+    include: {
+      users: true,
+      services: true,
+    },
+  });
+
+  if (!booking) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
+  }
+
+  return booking;
+}
+
 // Delete Booking by id
 const deleteBookingById = async (bookingId: string): Promise<Booking> => {
   const booking = await prisma.booking.delete({
@@ -205,4 +273,6 @@ export const BookingService = {
     getBookingById,
     updateBookingById,
     deleteBookingById,
+    changeBookingStatusByUser,
+    changeBookingStatusByManagement,
 };

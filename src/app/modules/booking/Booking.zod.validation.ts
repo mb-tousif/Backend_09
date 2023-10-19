@@ -33,7 +33,25 @@ const updateValidation = z.object({
   }),
 });
 
+const changeBookingStatusByUser = z.object({
+  body: z.object({
+    status: z.enum(["Pending", "Confirmed", "Canceled"], {
+      required_error: "Status is required",
+    }),
+  }),
+});
+
+const changeBookingStatusByManagement = z.object({
+  body: z.object({
+    status: z.enum(["Rejected", "Delivered", "Completed"], {
+      required_error: "Status is required",
+    }),
+  }),
+});
+
 export const BookingValidation = {
   postValidation,
   updateValidation,
+  changeBookingStatusByUser,
+  changeBookingStatusByManagement,
 };

@@ -83,6 +83,32 @@ const deleteBookingById = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+// Change Booking status by user
+const changeBookingStatusByUser = catchAsync(async (req: Request, res: Response) => {
+  const bookingId = req.params.id;
+  const payload = req.body;
+  const result = await BookingService.changeBookingStatusByUser(bookingId, payload);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Booking status updated successfully",
+    data: result,
+  });
+});
+
+// Change Booking status by management
+const changeBookingStatusByManagement = catchAsync(async (req: Request, res: Response) => {
+  const bookingId = req.params.id;
+  const payload = req.body;
+  const result = await BookingService.changeBookingStatusByManagement(bookingId, payload);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Booking status updated successfully",
+    data: result,
+  });
+});
+
 export const BookingController = {
     createBooking,
     getAllBookings,
@@ -90,4 +116,6 @@ export const BookingController = {
     getBookingById,
     updateBookingById,
     deleteBookingById,
+    changeBookingStatusByUser,
+    changeBookingStatusByManagement,
 };
