@@ -4,7 +4,6 @@ import { ENUM_USER_ROLE } from '../../../enums/common';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { AuthValidation } from '../auth/Auth.zod.validation';
-import { UserValidation } from '../user/User.zod.validation';
 import { AdminController } from './Admin.controller';
 
 const router = express.Router();
@@ -19,7 +18,6 @@ router.post(
 router.patch(
   "/update-user/:id",
   auth(ENUM_USER_ROLE.ADMIN),
-  validateRequest(UserValidation.adminUpdateValidationField),
   AdminController.updateUserById
 );
 

@@ -58,6 +58,7 @@ const updateUserById = async (
       contact: true,
       address: true,
       imgUrl: true,
+      status: true,
     },
   });
 
