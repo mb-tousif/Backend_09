@@ -185,8 +185,9 @@ const updateBookingById = async ( bookingId: string, payload: Booking): Promise<
 
 // Update Booking status by user
 const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Booking>): Promise<Booking> => {
+  const bookingStatus = await prisma.$transaction(async (transactionClient) => {
   // Handle Booking is already completed
-  const isCompleted = await prisma.booking.findFirst({
+  const isCompleted = await transactionClient.booking.findFirst({
     where: {
       id: bookingId,
       status: "Completed",
@@ -199,7 +200,7 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
     );
   }
 
-  const booking = await prisma.booking.update({
+  const booking = await transactionClient.booking.update({
     where: {
       id: bookingId,
     },
@@ -214,7 +215,15 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
     throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
   }
 
+  await transactionClient.cart.delete({
+    where: {
+      id: booking.cartId,
+    },
+  });
+
   return booking;
+});
+    return bookingStatus;
 }
 
 // Update Booking status by management
