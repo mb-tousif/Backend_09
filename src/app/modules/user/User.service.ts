@@ -55,6 +55,7 @@ const getAllUsers = async (options:IPaginationOptions, filterOptions: TFilterabl
       contact: true,
       address: true,
       imgUrl: true,
+      status: true,
     },
   });
 
