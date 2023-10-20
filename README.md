@@ -10,7 +10,7 @@
 - [x] Implemented CRUD operations
 - [x] Used Authentication and Authorization
 - [x] Handled Pagination and Filtering
-- [x] Process data by $transaction for logical groups of processing data in Mongodb that needs to encapsulate several operations.
+- [x] Process data by $transaction for logical groups of processing data in Postgres that needs to encapsulate several operations.
 - [x] Validate data by Zod
 - [x] Secured authentication by JWT
 - [x] Password encrypted by Bcrypt
