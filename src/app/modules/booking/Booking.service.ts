@@ -215,10 +215,13 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
     throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
   }
 
-  await transactionClient.cart.delete({
+  await transactionClient.cart.update({
     where: {
       id: booking.cartId,
     },
+      data: {
+        status: "Completed",
+      },
   });
 
   return booking;
