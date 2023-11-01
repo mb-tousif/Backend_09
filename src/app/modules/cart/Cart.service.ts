@@ -255,6 +255,80 @@ const getCartsByUserId = async (
   };
 };
 
+// increment Cart quantity
+const incrementCartQuantity = async ( payload: string ): Promise<Cart> => {
+    // Check Cart is already exist with same user and service
+    const isExist = await prisma.cart.findFirst({
+      where: {
+        id: payload,
+      },
+    });
+    if (!isExist) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Cart did not found");
+    }
+    
+    // Update Cart data
+    const result = await prisma.cart.update({
+      where: {
+        id: isExist.id,
+      },
+      include: {
+        services: true,
+      },
+      data: {
+        quantity: {
+          increment: 1,
+        },
+        totalPrice: {
+          increment: isExist.totalPrice,
+        },
+      },
+    });
+
+    if(!result){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Cart did not found");
+    }
+
+    return result;
+}
+
+// increment Cart quantity
+const decrementCartQuantity = async ( payload: string ): Promise<Cart> => {
+    // Check Cart is already exist with same user and service
+    const isExist = await prisma.cart.findFirst({
+      where: {
+        id: payload,
+      },
+    });
+    if (!isExist) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Cart did not found");
+    }
+    
+    // Update Cart data
+    const result = await prisma.cart.update({
+      where: {
+        id: isExist.id,
+      },
+      include: {
+        services: true,
+      },
+      data: {
+        quantity: {
+          decrement: 1,
+        },
+        totalPrice: {
+          decrement: isExist.totalPrice/ isExist.quantity,
+        },
+      },
+    });
+
+    if(!result){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Cart did not found");
+    }
+
+    return result;
+}
+
 // Get Cart by id
 const getCartById = async ( payload: string): Promise<Cart> => {
     const result = await prisma.cart.findUnique({
@@ -330,5 +404,7 @@ export const CartService = {
     getCartsByUserId,
     getCartById,
     updateCartById,
+    incrementCartQuantity,
+    decrementCartQuantity,
     deleteCartById
 };

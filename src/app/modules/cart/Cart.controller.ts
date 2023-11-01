@@ -58,6 +58,34 @@ const getCartById = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+// increment Cart quantity by id
+const incrementCartQuantity = catchAsync(
+  async (req: Request, res: Response) => {
+    const cartId = req.params.id;
+    const result = await CartService.incrementCartQuantity(cartId);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Cart quantity incremented successfully",
+      data: result,
+    });
+  }
+);
+
+// decrement Cart quantity by id
+const decrementCartQuantity = catchAsync(
+  async (req: Request, res: Response) => {
+    const cartId = req.params.id;
+    const result = await CartService.decrementCartQuantity(cartId);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Cart quantity decremented successfully",
+      data: result,
+    });
+  }
+);
+
 // Update Cart by id
 const updateCartById = catchAsync(async (req: Request, res: Response) => {
     const cartId = req.params.id;
@@ -89,5 +117,7 @@ export const CartController = {
     getCartById,
     getCartsByUserId,
     updateCartById,
+    incrementCartQuantity,
+    decrementCartQuantity,
     deleteCartById
 };

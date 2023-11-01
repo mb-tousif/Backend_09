@@ -36,6 +36,18 @@ router.post(
     CartController.createCart
 );
 
+router.patch(
+  "/increment-cart-quantity/:id",
+  auth(ENUM_USER_ROLE.USER),
+  CartController.incrementCartQuantity
+);
+
+router.patch(
+  "/decrement-cart-quantity/:id",
+  auth(ENUM_USER_ROLE.USER),
+  CartController.decrementCartQuantity
+);
+
 // Update Cart by id
 router.patch(
   "/:id",
