@@ -6,6 +6,7 @@ import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import prisma from "../../../shared/prisma";
+import { CART_STATUS } from "../cart/Cart.constants";
 import { BookingFilterAbleField } from "./Booking.constants";
 import { TBookingFilterableOptions } from "./Booking.interfaces";
 
@@ -190,14 +191,26 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
   const isCompleted = await transactionClient.booking.findFirst({
     where: {
       id: bookingId,
-      status: "Completed",
     },
   });
-  if (isCompleted) {
+  if (isCompleted?.status === "Completed") {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
       "Booking already completed now you can not update it"
     );
+  }
+  
+  const cartUpdated = await transactionClient.cart.update({
+    where: {
+      id: isCompleted?.cartId,
+    },
+    data: {
+      status: CART_STATUS.BOOKED,
+    },
+  });
+
+  if (!cartUpdated) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Cart status did not updated");
   }
 
   const booking = await transactionClient.booking.update({
@@ -220,7 +233,7 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
       id: booking.cartId,
     },
       data: {
-        status: "Completed",
+        status: CART_STATUS.BOOKED,
       },
   });
 
@@ -265,15 +278,38 @@ const changeBookingStatusByManagement = async ( bookingId: string, payload: Part
 
 // Delete Booking by id
 const deleteBookingById = async (bookingId: string): Promise<Booking> => {
-  const booking = await prisma.booking.delete({
+  const booking =await prisma.$transaction(async (transactionClient) => {
+  const isExist = await transactionClient.booking.findFirst({
+    where: {
+      id: bookingId,
+    },
+  });
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
+  }
+  // delete cart
+  const deleteCart = await transactionClient.cart.delete({
+    where: {
+      id: isExist.cartId,
+    },
+  });
+
+  if (!deleteCart) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Cart did not deleted");
+  }
+
+  const deleBooking = await transactionClient.booking.delete({
     where: {
       id: bookingId,
     },
   });
 
-  if (!booking) {
+  if (!deleBooking) {
     throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
   }
+
+  return deleBooking;
+})
 
   return booking;
 };
