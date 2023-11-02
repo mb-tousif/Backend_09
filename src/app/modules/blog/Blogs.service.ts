@@ -128,6 +128,14 @@ const getBlogsById = async (blogId: string): Promise<Blogs> => {
 
 // Update Blogs by id
 const updateBlogsById = async ( blogId: string, payload: Blogs): Promise<Blogs> => {
+  const isExist = await prisma.blogs.findUnique({
+    where: {
+      id: blogId,
+    },
+  });
+  if (!isExist) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Blogs is not exist");
+  }
   const result = await prisma.blogs.update({
     where: {
       id: blogId,
