@@ -116,10 +116,13 @@ const getAllReviews = async (
 };
 
 // Get Review by id
-const getReviewById = async (reviewId: string): Promise<Review> => {
-  const result = await prisma.review.findUnique({
+const getReviewById = async (reviewId: string): Promise<Review[]> => {
+  const result = await prisma.review.findMany({
     where: {
-      id: reviewId,
+      serviceId: reviewId,
+    },
+    include: {
+      users: true,
     },
   });
 
