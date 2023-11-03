@@ -53,7 +53,6 @@
 
 #### Super Admin
 
-- [x] Create Management `POST /api/v1/super-admins/create-management` [ Only Super Admin ]
 - [x] Update User By Id `PATCH /api/v1/super-admins/update-user/:id` [ Super Admin can update any user data without password ]
 
 #### Painting Service

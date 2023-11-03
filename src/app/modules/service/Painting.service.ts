@@ -13,7 +13,8 @@ const createService = async (payload: Service): Promise<Service> =>{
   // Handle duplicate service Data
     const isServiceExist = await prisma.service.findUnique({
         where: {
-            name: payload.name
+            name: payload.name,
+            category: payload.category
         }
     });
     if(isServiceExist){
@@ -157,6 +158,11 @@ const getAllAvailableServices = async (
 
   const services = await prisma.service.findMany({
     where: query.where,
+    include: {
+      bookings: true,
+      carts: true,
+      reviews: true,
+    },
     orderBy: query.orderBy,
     skip: query.skip,
     take: query.take,
@@ -223,6 +229,11 @@ const getAllUpcomingServices = async (
 
   const services = await prisma.service.findMany({
     where: query.where,
+    include: {
+      bookings: true,
+      carts: true,
+      reviews: true,
+    },
     orderBy: query.orderBy,
     skip: query.skip,
     take: query.take,
@@ -285,14 +296,14 @@ const updateServiceById = async ( payload: string, data: Service ): Promise<Serv
   }
 
   // Check service is exist or not
-    const isServiceExist = await prisma.service.findUnique({
-        where: {
-            name: data.name
-        }
-    });
-    if(isServiceExist){
-        throw new ApiError( httpStatus.BAD_REQUEST, "Service already exist")
-    }
+    // const isServiceExist = await prisma.service.findFirst({
+    //     where: {
+    //         name: data.name
+    //     }
+    // });
+    // if(isServiceExist){
+    //     throw new ApiError( httpStatus.BAD_REQUEST, "Service already exist")
+    // }
 
     // Update service data
     const service = await prisma.service.update({
