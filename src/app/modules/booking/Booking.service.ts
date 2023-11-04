@@ -199,8 +199,19 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
       "Booking already completed now you can not update it"
     );
   }
-  
-  const cartUpdated = await transactionClient.cart.update({
+  // Cancelled by user
+  if (payload.status === "Cancelled") {
+    await transactionClient.cart.update({
+    where: {
+      id: isCompleted?.cartId,
+    },
+    data: {
+      status: CART_STATUS.CANCELLED,
+    },
+  });
+}
+if (payload.status === "Confirmed"){
+  await transactionClient.cart.update({
     where: {
       id: isCompleted?.cartId,
     },
@@ -208,10 +219,7 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
       status: CART_STATUS.BOOKED,
     },
   });
-
-  if (!cartUpdated) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Cart status did not updated");
-  }
+}
 
   const booking = await transactionClient.booking.update({
     where: {
@@ -227,15 +235,6 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
   if (!booking) {
     throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
   }
-
-  await transactionClient.cart.update({
-    where: {
-      id: booking.cartId,
-    },
-      data: {
-        status: CART_STATUS.BOOKED,
-      },
-  });
 
   return booking;
 });

@@ -20,8 +20,7 @@ const updateValidation = z.object({
     userId: z.string().uuid().optional(),
     serviceId: z.string().uuid().optional(),
     status: z
-      .enum(
-        ["Pending", "Confirmed", "Rejected", "Completed"], {
+      .enum(["Pending", "Confirmed", "Rejected", "Completed", "Cancelled"], {
         required_error: "Status is required",
       })
       .optional(),
