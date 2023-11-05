@@ -7,7 +7,7 @@ import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import prisma from "../../../shared/prisma";
 import { CART_STATUS } from "../cart/Cart.constants";
-import { BookingFilterAbleField } from "./Booking.constants";
+import { BookingFilterAbleField, ENUM_BOOKING_STATUS } from "./Booking.constants";
 import { TBookingFilterableOptions } from "./Booking.interfaces";
 
 // Post Booking data to database
@@ -185,7 +185,7 @@ const updateBookingById = async ( bookingId: string, payload: Booking): Promise<
 };
 
 // Update Booking status by user
-const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Booking>): Promise<Booking> => {
+const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Booking>) => {
   const bookingStatus = await prisma.$transaction(async (transactionClient) => {
   // Handle Booking is already completed
   const isCompleted = await transactionClient.booking.findFirst({
@@ -201,44 +201,47 @@ const changeBookingStatusByUser = async ( bookingId: string, payload: Partial<Bo
   }
   // Cancelled by user
   if (payload.status === "Cancelled") {
+    const booking = await transactionClient.booking.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        status: ENUM_BOOKING_STATUS.PENDING,
+      },
+    });
     await transactionClient.cart.update({
-    where: {
-      id: isCompleted?.cartId,
-    },
-    data: {
-      status: CART_STATUS.CANCELLED,
-    },
-  });
+      where: {
+        id: isCompleted?.cartId,
+      },
+      data: {
+        status: CART_STATUS.CANCELLED,
+      },
+    });
+    return booking;
 }
 if (payload.status === "Confirmed"){
-  await transactionClient.cart.update({
-    where: {
-      id: isCompleted?.cartId,
-    },
-    data: {
-      status: CART_STATUS.BOOKED,
-    },
-  });
+   const booking = await transactionClient.booking.update({
+     where: {
+       id: bookingId,
+     },
+     data: payload,
+     include: {
+       users: true,
+       services: true,
+     },
+   });
+   await transactionClient.cart.update({
+     where: {
+       id: isCompleted?.cartId,
+     },
+     data: {
+       status: CART_STATUS.BOOKED,
+     },
+   });
+   return booking;
 }
-
-  const booking = await transactionClient.booking.update({
-    where: {
-      id: bookingId,
-    },
-    data: payload,
-    include: {
-      users: true,
-      services: true,
-    },
-  });
-
-  if (!booking) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Booking did not found");
-  }
-
-  return booking;
 });
-    return bookingStatus;
+  return bookingStatus;
 }
 
 // Update Booking status by management

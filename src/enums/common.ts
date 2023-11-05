@@ -9,6 +9,7 @@ export enum ENUM_Booking_Status {
   PENDING = "Pending",
   CONFIRMED = "Confirmed",
   DELIVERED = "Delivered",
+  COMPLETED = "Completed",
 }
 
 export enum ENUM_PAYMENT_STATUS {

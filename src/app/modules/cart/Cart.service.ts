@@ -71,6 +71,7 @@ const createCart = async (user:  JwtPayload | null, payload: Cart): Promise<Cart
           },
           include: {
             services: true,
+            bookings: true,
           },
           data: {
             quantity: {
@@ -79,8 +80,20 @@ const createCart = async (user:  JwtPayload | null, payload: Cart): Promise<Cart
             totalPrice: {
               increment: service?.price || payload.totalPrice,
             },
+            status: "Pending",
           },
         });
+        
+        if (result?.bookings?.filter((item) => item.cartId === result?.id)) {
+          await transactionClient.booking.update({
+            where: {
+              id: result?.bookings[0].id,
+            },
+            data: {
+              status: "Pending",
+            },
+          });
+        }
 
         return result;
       }
@@ -298,10 +311,13 @@ const decrementCartQuantity = async ( payload: string ): Promise<Cart> => {
     const isExist = await prisma.cart.findFirst({
       where: {
         id: payload,
-      },
+        quantity: {
+          gt: 1,
+        },
+    },
     });
     if (!isExist) {
-      throw new ApiError(httpStatus.BAD_REQUEST, "Cart did not found");
+      throw new ApiError(httpStatus.BAD_REQUEST, "Cart can not be decremented");
     }
     
     // Update Cart data

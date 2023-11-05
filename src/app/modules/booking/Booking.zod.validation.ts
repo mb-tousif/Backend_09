@@ -34,7 +34,7 @@ const updateValidation = z.object({
 
 const changeBookingStatusByUser = z.object({
   body: z.object({
-    status: z.enum(["Pending", "Confirmed", "Canceled"], {
+    status: z.enum(["Pending", "Confirmed", "Cancelled"], {
       required_error: "Status is required",
     }),
   }),
