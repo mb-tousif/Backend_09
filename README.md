@@ -3,7 +3,7 @@
 ## Description
 <p>This <em>Painting Booking and Management Service</em> is a backend project by Node.js, Express.js, and Prisma ORM. It is a comprehensive online platform backend that allows users to book services and manage their cart, bookings, notifications, payments.</p>
 
-### This project [Live Site](https://painting-service-roan.vercel.app/)
+### This project [Live Site](https://printing-service-ltd.vercel.app/)
 
 ### Features
 
