@@ -32,6 +32,7 @@ const Cart_constants_1 = require("./Cart.constants");
 // Post Cart data to database
 const createCart = (user, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const postCart = yield prisma_1.default.$transaction((transactionClient) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
         // Handle Cart data if service status is not available
         const serviceStatus = yield transactionClient.service.findFirst({
             where: {
@@ -76,6 +77,7 @@ const createCart = (user, payload) => __awaiter(void 0, void 0, void 0, function
                 },
                 include: {
                     services: true,
+                    bookings: true,
                 },
                 data: {
                     quantity: {
@@ -84,8 +86,19 @@ const createCart = (user, payload) => __awaiter(void 0, void 0, void 0, function
                     totalPrice: {
                         increment: (service === null || service === void 0 ? void 0 : service.price) || payload.totalPrice,
                     },
+                    status: "Pending",
                 },
             });
+            if ((_a = result === null || result === void 0 ? void 0 : result.bookings) === null || _a === void 0 ? void 0 : _a.filter((item) => item.cartId === (result === null || result === void 0 ? void 0 : result.id))) {
+                yield transactionClient.booking.update({
+                    where: {
+                        id: result === null || result === void 0 ? void 0 : result.bookings[0].id,
+                    },
+                    data: {
+                        status: "Pending",
+                    },
+                });
+            }
             return result;
         }
         // Posting Cart data to database
@@ -270,10 +283,13 @@ const decrementCartQuantity = (payload) => __awaiter(void 0, void 0, void 0, fun
     const isExist = yield prisma_1.default.cart.findFirst({
         where: {
             id: payload,
+            quantity: {
+                gt: 1,
+            },
         },
     });
     if (!isExist) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Cart did not found");
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Cart can not be decremented");
     }
     // Update Cart data
     const result = yield prisma_1.default.cart.update({

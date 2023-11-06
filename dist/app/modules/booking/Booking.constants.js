@@ -9,5 +9,6 @@ var ENUM_BOOKING_STATUS;
     ENUM_BOOKING_STATUS["CONFIRMED"] = "Confirmed";
     ENUM_BOOKING_STATUS["REJECTED"] = "Rejected";
     ENUM_BOOKING_STATUS["COMPLETED"] = "Completed";
+    ENUM_BOOKING_STATUS["CANCELLED"] = "Cancelled";
 })(ENUM_BOOKING_STATUS || (exports.ENUM_BOOKING_STATUS = ENUM_BOOKING_STATUS = {}));
 //# sourceMappingURL=Booking.constants.js.map

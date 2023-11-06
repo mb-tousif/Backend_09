@@ -31,7 +31,7 @@ const updateValidation = zod_1.z.object({
 });
 const changeBookingStatusByUser = zod_1.z.object({
     body: zod_1.z.object({
-        status: zod_1.z.enum(["Pending", "Confirmed", "Canceled"], {
+        status: zod_1.z.enum(["Pending", "Confirmed", "Cancelled"], {
             required_error: "Status is required",
         }),
     }),

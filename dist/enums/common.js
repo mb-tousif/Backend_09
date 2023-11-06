@@ -13,6 +13,7 @@ var ENUM_Booking_Status;
     ENUM_Booking_Status["PENDING"] = "Pending";
     ENUM_Booking_Status["CONFIRMED"] = "Confirmed";
     ENUM_Booking_Status["DELIVERED"] = "Delivered";
+    ENUM_Booking_Status["COMPLETED"] = "Completed";
 })(ENUM_Booking_Status || (exports.ENUM_Booking_Status = ENUM_Booking_Status = {}));
 var ENUM_PAYMENT_STATUS;
 (function (ENUM_PAYMENT_STATUS) {

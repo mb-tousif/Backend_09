@@ -186,6 +186,14 @@ const changeBookingStatusByUser = (bookingId, payload) => __awaiter(void 0, void
         }
         // Cancelled by user
         if (payload.status === "Cancelled") {
+            const booking = yield transactionClient.booking.update({
+                where: {
+                    id: bookingId,
+                },
+                data: {
+                    status: Booking_constants_1.ENUM_BOOKING_STATUS.PENDING,
+                },
+            });
             yield transactionClient.cart.update({
                 where: {
                     id: isCompleted === null || isCompleted === void 0 ? void 0 : isCompleted.cartId,
@@ -194,8 +202,19 @@ const changeBookingStatusByUser = (bookingId, payload) => __awaiter(void 0, void
                     status: Cart_constants_1.CART_STATUS.CANCELLED,
                 },
             });
+            return booking;
         }
         if (payload.status === "Confirmed") {
+            const booking = yield transactionClient.booking.update({
+                where: {
+                    id: bookingId,
+                },
+                data: payload,
+                include: {
+                    users: true,
+                    services: true,
+                },
+            });
             yield transactionClient.cart.update({
                 where: {
                     id: isCompleted === null || isCompleted === void 0 ? void 0 : isCompleted.cartId,
@@ -204,21 +223,8 @@ const changeBookingStatusByUser = (bookingId, payload) => __awaiter(void 0, void
                     status: Cart_constants_1.CART_STATUS.BOOKED,
                 },
             });
+            return booking;
         }
-        const booking = yield transactionClient.booking.update({
-            where: {
-                id: bookingId,
-            },
-            data: payload,
-            include: {
-                users: true,
-                services: true,
-            },
-        });
-        if (!booking) {
-            throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Booking did not found");
-        }
-        return booking;
     }));
     return bookingStatus;
 });

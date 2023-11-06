@@ -100,6 +100,11 @@ const getAllServices = (options, payload) => __awaiter(void 0, void 0, void 0, f
     };
     const services = yield prisma_1.default.service.findMany({
         where: query.where,
+        include: {
+            bookings: true,
+            carts: true,
+            reviews: true,
+        },
         orderBy: query.orderBy,
         skip: query.skip,
         take: query.take,
