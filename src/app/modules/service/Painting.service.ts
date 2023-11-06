@@ -92,6 +92,11 @@ const getAllServices = async (
 
   const services = await prisma.service.findMany({
     where: query.where,
+    include: {
+      bookings: true,
+      carts: true,
+      reviews: true,
+    },
     orderBy: query.orderBy,
     skip: query.skip,
     take: query.take,
