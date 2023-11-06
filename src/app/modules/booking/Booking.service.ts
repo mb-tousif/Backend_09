@@ -7,7 +7,7 @@ import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import prisma from "../../../shared/prisma";
 import { CART_STATUS } from "../cart/Cart.constants";
-import { BookingFilterAbleField, ENUM_BOOKING_STATUS } from "./Booking.constants";
+import { BookingSearchAbleField, ENUM_BOOKING_STATUS } from "./Booking.constants";
 import { TBookingFilterableOptions } from "./Booking.interfaces";
 
 // Post Booking data to database
@@ -67,7 +67,7 @@ const getAllBookings = async (
   const andCondition = [];
   if (search) {
     andCondition.push({
-      OR: BookingFilterAbleField.map((field) => ({
+      OR: BookingSearchAbleField.map((field) => ({
         [field.toString()]: {
           contains: search,
           mode: "insensitive",

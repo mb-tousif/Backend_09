@@ -73,7 +73,7 @@ const getAllBookings = (options, payload) => __awaiter(void 0, void 0, void 0, f
     const andCondition = [];
     if (search) {
         andCondition.push({
-            OR: Booking_constants_1.BookingFilterAbleField.map((field) => ({
+            OR: Booking_constants_1.BookingSearchAbleField.map((field) => ({
                 [field.toString()]: {
                     contains: search,
                     mode: "insensitive",
