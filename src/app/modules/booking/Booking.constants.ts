@@ -1,5 +1,5 @@
 
-export const BookingSearchAbleField: string[] = [ "userId", "serviceId", "status", "paymentStatus" ];
+export const BookingSearchAbleField: string[] = [ "userId", "serviceId", "status"];
 
 export const BookingFilterAbleField: string[] = [ "search", "userId", "serviceId", "status", "paymentStatus" ];
 

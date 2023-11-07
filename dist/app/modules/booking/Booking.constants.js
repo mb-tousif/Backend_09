@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ENUM_BOOKING_STATUS = exports.BookingFilterAbleField = exports.BookingSearchAbleField = void 0;
-exports.BookingSearchAbleField = ["userId", "serviceId", "status", "paymentStatus"];
+exports.BookingSearchAbleField = ["userId", "serviceId", "status"];
 exports.BookingFilterAbleField = ["search", "userId", "serviceId", "status", "paymentStatus"];
 var ENUM_BOOKING_STATUS;
 (function (ENUM_BOOKING_STATUS) {
