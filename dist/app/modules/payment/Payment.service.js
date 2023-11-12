@@ -28,6 +28,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const prisma_1 = __importDefault(require("../../../shared/prisma"));
+const ssl_service_1 = require("../ssl/ssl.service");
 const Payment_constants_1 = require("./Payment.constants");
 // Post Payment data to database
 const createPayment = (user, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -40,18 +41,56 @@ const createPayment = (user, payload) => __awaiter(void 0, void 0, void 0, funct
     if ((isActive === null || isActive === void 0 ? void 0 : isActive.status) === "Blocked" || (isActive === null || isActive === void 0 ? void 0 : isActive.status) === "Inactive") {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "User is blocked or inactive");
     }
+    ;
+    const transactionId = `${payload.cartId.slice(0, 4)}-${payload.serviceId.slice(0, 4)}-${payload.amount}-${new Date().getTime()}`;
+    const paymentSession = yield ssl_service_1.sslService.initPayment({
+        total_amount: payload.amount,
+        tran_id: transactionId,
+        cus_name: isActive === null || isActive === void 0 ? void 0 : isActive.name,
+        cus_email: isActive === null || isActive === void 0 ? void 0 : isActive.email,
+        cus_add1: isActive === null || isActive === void 0 ? void 0 : isActive.address,
+        cus_phone: isActive === null || isActive === void 0 ? void 0 : isActive.contact,
+    });
     const result = yield prisma_1.default.payment.create({
         data: {
             userId: user === null || user === void 0 ? void 0 : user.id,
-            bookingId: payload.bookingId,
+            cartId: payload.cartId,
             serviceId: payload.serviceId,
             amount: payload.amount,
+            transactionId: transactionId,
         },
     });
     if (!result) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Payment did not created");
     }
-    return result;
+    return paymentSession.redirectGatewayURL;
+});
+// Validate Payment status
+const validatePaymentStatus = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!payload || !(payload === null || payload === void 0 ? void 0 : payload.status) || (payload === null || payload === void 0 ? void 0 : payload.status) !== 'VALID') {
+        return {
+            massage: 'Invalid Payment!'
+        };
+    }
+    const result = yield ssl_service_1.sslService.validate(payload);
+    if ((result === null || result === void 0 ? void 0 : result.status) !== 'VALID') {
+        return {
+            massage: 'Payment failed'
+        };
+    }
+    const { tran_id } = result;
+    yield prisma_1.default.payment.updateMany({
+        where: {
+            transactionId: tran_id
+        },
+        data: {
+            status: "Paid",
+            paymentGatewayData: payload
+        }
+    });
+    return {
+        massage: 'Payment Success'
+    };
 });
 // Get all Payments
 const getAllPayments = (options, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -90,7 +129,7 @@ const getAllPayments = (options, payload) => __awaiter(void 0, void 0, void 0, f
         },
         include: {
             users: true,
-            bookings: true,
+            carts: true,
             notifications: true,
         },
     });
@@ -117,7 +156,7 @@ const getPaymentById = (paymentId) => __awaiter(void 0, void 0, void 0, function
         },
         include: {
             users: true,
-            bookings: true,
+            carts: true,
             notifications: true,
         },
     });
@@ -142,7 +181,7 @@ const updatePaymentById = (paymentId, payload) => __awaiter(void 0, void 0, void
         yield prisma_1.default.notification.create({
             data: {
                 userId: payload.userId,
-                bookingId: payload.bookingId,
+                cartId: payload.cartId,
                 paymentId: paymentId,
                 message: `Your payment amount is ${payload.amount} and status ${payload.status}`,
             },
@@ -152,10 +191,13 @@ const updatePaymentById = (paymentId, payload) => __awaiter(void 0, void 0, void
         where: {
             id: paymentId,
         },
-        data: payload,
+        data: {
+            status: payload.status,
+            amount: payload.amount,
+        },
         include: {
             users: true,
-            bookings: true,
+            carts: true,
             notifications: true,
         },
     });
@@ -172,7 +214,7 @@ const deletePaymentById = (PaymentId) => __awaiter(void 0, void 0, void 0, funct
         },
         include: {
             users: true,
-            bookings: true,
+            carts: true,
             notifications: true,
         },
     });
@@ -183,6 +225,7 @@ const deletePaymentById = (PaymentId) => __awaiter(void 0, void 0, void 0, funct
 });
 exports.PaymentService = {
     createPayment,
+    validatePaymentStatus,
     getAllPayments,
     getPaymentById,
     updatePaymentById,

@@ -25,6 +25,11 @@ router.post(
     validateRequest(PaymentValidation.postValidation),
     PaymentController.createPayment
 );
+router.post(
+  "/validate_status",
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.USER),
+  PaymentController.validatePaymentStatus
+);
 
 router.patch(
   "/update-payment/:id",

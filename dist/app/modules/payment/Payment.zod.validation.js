@@ -4,32 +4,40 @@ exports.PaymentValidation = void 0;
 const zod_1 = require("zod");
 const postValidation = zod_1.z.object({
     body: zod_1.z.object({
-        bookingId: zod_1.z.string({
-            required_error: "bookingId is required",
-        }).uuid(),
-        serviceId: zod_1.z.string({
+        cartId: zod_1.z
+            .string({
+            required_error: "cartId is required",
+        })
+            .uuid(),
+        serviceId: zod_1.z
+            .string({
             required_error: "serviceId is required",
-        }).uuid(),
-        amount: zod_1.z.number({
+        })
+            .uuid(),
+        amount: zod_1.z
+            .number({
             required_error: "amount is required",
-        }).positive(),
-        status: zod_1.z.enum(["Pending", "Partially Paid", "Paid", "Refunded"], {
-            required_error: "status is required",
-        }),
-    })
+        })
+            .positive()
+    }),
 });
 const updateValidation = zod_1.z.object({
     body: zod_1.z.object({
-        status: zod_1.z.enum(["Pending", "Partially Paid", "Paid", "Refunded"], {
+        status: zod_1.z
+            .enum(["Pending", "Partially Paid", "Paid", "Refunded"], {
             required_error: "status is required",
-        }).optional(),
-        amount: zod_1.z.number({
+        })
+            .optional(),
+        amount: zod_1.z
+            .number({
             required_error: "amount is required",
-        }).positive().optional(),
-    })
+        })
+            .positive()
+            .optional(),
+    }),
 });
 exports.PaymentValidation = {
     postValidation,
-    updateValidation
+    updateValidation,
 };
 //# sourceMappingURL=Payment.zod.validation.js.map

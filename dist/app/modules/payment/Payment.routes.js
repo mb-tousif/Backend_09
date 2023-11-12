@@ -14,6 +14,7 @@ const router = express_1.default.Router();
 router.get('/all-payments', (0, auth_1.default)(common_1.ENUM_USER_ROLE.ADMIN, common_1.ENUM_USER_ROLE.SUPER_ADMIN, common_1.ENUM_USER_ROLE.USER), Payment_controller_1.PaymentController.getAllPayments);
 router.get('/:id', (0, auth_1.default)(common_1.ENUM_USER_ROLE.ADMIN, common_1.ENUM_USER_ROLE.SUPER_ADMIN, common_1.ENUM_USER_ROLE.USER), Payment_controller_1.PaymentController.getPaymentById);
 router.post('/create-payment', (0, auth_1.default)(common_1.ENUM_USER_ROLE.USER), (0, validateRequest_1.default)(Payment_zod_validation_1.PaymentValidation.postValidation), Payment_controller_1.PaymentController.createPayment);
+router.post("/validate_status", (0, auth_1.default)(common_1.ENUM_USER_ROLE.ADMIN, common_1.ENUM_USER_ROLE.SUPER_ADMIN, common_1.ENUM_USER_ROLE.USER), Payment_controller_1.PaymentController.validatePaymentStatus);
 router.patch("/update-payment/:id", (0, auth_1.default)(common_1.ENUM_USER_ROLE.ADMIN, common_1.ENUM_USER_ROLE.SUPER_ADMIN, common_1.ENUM_USER_ROLE.USER), (0, validateRequest_1.default)(Payment_zod_validation_1.PaymentValidation.updateValidation), Payment_controller_1.PaymentController.updatePaymentById);
 router.delete('/:id', (0, auth_1.default)(common_1.ENUM_USER_ROLE.ADMIN, common_1.ENUM_USER_ROLE.SUPER_ADMIN, common_1.ENUM_USER_ROLE.USER), Payment_controller_1.PaymentController.deletePaymentById);
 exports.PaymentRoutes = router;

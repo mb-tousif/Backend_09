@@ -43,6 +43,17 @@ const createPayment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result,
     });
 }));
+// Validate Payment Status
+const validatePaymentStatus = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = req.query;
+    const result = yield Payment_service_1.PaymentService.validatePaymentStatus(payload);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Payment status validated successfully",
+        data: result,
+    });
+}));
 // Retrieve all Payments from the database.
 const getAllPayments = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const options = (0, pick_1.default)(req.query, pagination_1.paginationFields);
@@ -91,6 +102,7 @@ const deletePaymentById = (0, catchAsync_1.default)((req, res) => __awaiter(void
 }));
 exports.PaymentController = {
     createPayment,
+    validatePaymentStatus,
     getAllPayments,
     getPaymentById,
     updatePaymentById,

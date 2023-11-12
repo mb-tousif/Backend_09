@@ -6,6 +6,7 @@ import { paginationHelpers } from "../../../helpers/paginationHelper";
 import { IGenericResponse } from "../../../interfaces/common";
 import { IPaginationOptions } from "../../../interfaces/pagination";
 import prisma from "../../../shared/prisma";
+import { sslService } from "../ssl/ssl.service";
 import { PaymentSearchAbleField } from "./Payment.constants";
 import { TPaymentFilterableOptions } from "./Payment.interfaces";
 
@@ -20,16 +21,29 @@ const createPayment = async (
       id: user?.id,
     },
   });
+
   if (isActive?.status === "Blocked" || isActive?.status === "Inactive") {
     throw new ApiError(httpStatus.BAD_REQUEST, "User is blocked or inactive");
-  }
+  };
 
+  const transactionId = `${payload.cartId.slice(0, 4)}-${payload.serviceId.slice(0, 4)}-${payload.amount}-${new Date().getTime()}`;
+  
+  const paymentSession = await sslService.initPayment({
+    total_amount: payload.amount,
+    tran_id: transactionId,
+    cus_name: isActive?.name,
+    cus_email: isActive?.email,
+    cus_add1: isActive?.address,
+    cus_phone: isActive?.contact,
+  });
+  
   const result = await prisma.payment.create({
     data: {
       userId: user?.id,
-      bookingId: payload.bookingId,
+      cartId: payload.cartId,
       serviceId: payload.serviceId,
       amount: payload.amount,
+      transactionId: transactionId,
     },
   });
 
@@ -37,8 +51,39 @@ const createPayment = async (
     throw new ApiError(httpStatus.BAD_REQUEST, "Payment did not created");
   }
 
-  return result;
+  return paymentSession.redirectGatewayURL;
 };
+
+// Validate Payment status
+const validatePaymentStatus = async (payload: any) => {
+    if (!payload || !payload?.status || payload?.status !== 'VALID') {
+        return {
+            massage: 'Invalid Payment!'
+        }
+    }
+    const result = await sslService.validate(payload);
+
+    if (result?.status !== 'VALID') {
+        return {
+            massage: 'Payment failed'
+        }
+    }
+
+    const { tran_id } = result;
+    await prisma.payment.updateMany({
+        where: {
+            transactionId: tran_id
+        },
+        data: {
+            status: "Paid",
+            paymentGatewayData: payload
+        }
+    })
+
+    return {
+        massage: 'Payment Success'
+    };
+}
 
 // Get all Payments
 const getAllPayments = async (
@@ -84,7 +129,7 @@ const getAllPayments = async (
     },
     include: {
       users: true,
-      bookings: true,
+      carts: true,
       notifications: true,
     },
   });
@@ -114,7 +159,7 @@ const getPaymentById = async (paymentId: string): Promise<Payment> => {
     },
     include: {
       users: true,
-      bookings: true,
+      carts: true,
       notifications: true,
     },
   });
@@ -146,7 +191,7 @@ const updatePaymentById = async ( paymentId: string, payload: Payment): Promise<
     await prisma.notification.create({
       data: {
         userId: payload.userId,
-        bookingId: payload.bookingId,
+        cartId: payload.cartId,
         paymentId: paymentId,
         message: `Your payment amount is ${payload.amount} and status ${payload.status}`,
       },
@@ -157,10 +202,13 @@ const updatePaymentById = async ( paymentId: string, payload: Payment): Promise<
     where: {
       id: paymentId,
     },
-    data: payload,
+    data: {
+      status: payload.status,
+      amount: payload.amount,
+    },
     include: {
       users: true,
-      bookings: true,
+      carts: true,
       notifications: true,
     },
   });
@@ -180,7 +228,7 @@ const deletePaymentById = async (PaymentId: string): Promise<Payment> => {
     },
     include: {
       users: true,
-      bookings: true,
+      carts: true,
       notifications: true,
     },
   });
@@ -194,6 +242,7 @@ const deletePaymentById = async (PaymentId: string): Promise<Payment> => {
 
 export const PaymentService = {
     createPayment,
+    validatePaymentStatus,
     getAllPayments,
     getPaymentById,
     updatePaymentById,

@@ -20,6 +20,18 @@ const createPayment = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
+// Validate Payment Status
+const validatePaymentStatus = catchAsync(async (req: Request, res: Response) => {
+    const payload = req.query;
+    const result = await PaymentService.validatePaymentStatus(payload);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Payment status validated successfully",
+      data: result,
+    });
+});
+
 // Retrieve all Payments from the database.
 const getAllPayments = catchAsync(async (req: Request, res: Response) => {
     const options = pick(req.query, paginationFields);
@@ -72,6 +84,7 @@ const deletePaymentById = catchAsync(async (req: Request, res: Response) => {
 
 export const PaymentController = {
     createPayment,
+    validatePaymentStatus,
     getAllPayments,
     getPaymentById,
     updatePaymentById,
