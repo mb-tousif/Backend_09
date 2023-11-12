@@ -47,9 +47,9 @@ model Service {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  carts     Cart[]
-  bookings  Booking[]
-  reviews   Review[]
+  carts    Cart[]
+  bookings Booking[]
+  reviews  Review[]
 
   @@map("services")
 }
@@ -64,6 +64,7 @@ model Cart {
   users      User      @relation(fields: [userId], references: [id])
   services   Service   @relation(fields: [serviceId], references: [id])
   bookings   Booking[]
+  payments   Payment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -86,27 +87,9 @@ model Booking {
   users         User           @relation(fields: [userId], references: [id])
   carts         Cart           @relation(fields: [cartId], references: [id])
   notifications Notification[]
-  payments      Payment[]
 
   @@map("bookings")
 }
-
-// model Schedule {
-//   id        String   @id @default(uuid())
-//   bookingId String
-//   serviceId String
-//   duration  String
-//   startDate String
-//   endDate   String
-//   status    String   @default("Pending")
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   bookings Booking @relation(fields: [bookingId], references: [id])
-//   services Service @relation(fields: [serviceId], references: [id])
-
-//   @@map("shedules")
-// }
 
 model Review {
   id        String   @id @default(uuid())
@@ -166,17 +149,19 @@ model Blogs {
 }
 
 model Payment {
-  id        String   @id @default(uuid())
-  userId    String
-  bookingId String
-  serviceId String
-  amount    Int
-  status    String   @default("Pending")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String   @id @default(uuid())
+  userId             String
+  cartId             String
+  serviceId          String
+  amount             Int
+  transactionId      String
+  paymentGatewayData Json?
+  status             String   @default("Pending")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
-  users    User    @relation(fields: [userId], references: [id])
-  bookings Booking @relation(fields: [bookingId], references: [id])
+  users         User           @relation(fields: [userId], references: [id])
+  carts         Cart           @relation(fields: [cartId], references: [id])
   notifications Notification[]
 
   @@map("payments")
