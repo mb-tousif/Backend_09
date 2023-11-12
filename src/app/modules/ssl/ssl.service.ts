@@ -52,7 +52,7 @@ const initPayment = async (payload: any) => {
 const validate = async (data: any) => {
   try {
     const response = await axios({
-      method: "post",
+      method: "GET",
       url: `${config.ssl.sslValidationUrl}?val_id=${data.val_id}&store_id=${config.ssl.storeId}&store_passwd=${config.ssl.storePass}&format=json`,
     });
     console.log(response);
