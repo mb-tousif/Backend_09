@@ -65,7 +65,7 @@ const initPayment = (payload) => __awaiter(void 0, void 0, void 0, function* () 
 const validate = (data) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield (0, axios_1.default)({
-            method: "GET",
+            method: "post",
             url: `${config_1.default.ssl.sslValidationUrl}?val_id=${data.val_id}&store_id=${config_1.default.ssl.storeId}&store_passwd=${config_1.default.ssl.storePass}&format=json`,
         });
         console.log(response);
