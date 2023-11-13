@@ -42,7 +42,7 @@ const createPayment = (user, payload) => __awaiter(void 0, void 0, void 0, funct
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "User is blocked or inactive");
     }
     ;
-    const transactionId = `${payload.cartId.slice(0, 4)}-${payload.serviceId.slice(0, 4)}-${payload.amount}-${new Date().getTime()}`;
+    const transactionId = `trnx-${payload === null || payload === void 0 ? void 0 : payload.amount}-${new Date().getTime()}`;
     const paymentSession = yield ssl_service_1.sslService.initPayment({
         total_amount: payload.amount,
         tran_id: transactionId,
@@ -51,6 +51,7 @@ const createPayment = (user, payload) => __awaiter(void 0, void 0, void 0, funct
         cus_add1: isActive === null || isActive === void 0 ? void 0 : isActive.address,
         cus_phone: isActive === null || isActive === void 0 ? void 0 : isActive.contact,
     });
+    // Create payment
     const result = yield prisma_1.default.payment.create({
         data: {
             userId: user === null || user === void 0 ? void 0 : user.id,
@@ -58,6 +59,39 @@ const createPayment = (user, payload) => __awaiter(void 0, void 0, void 0, funct
             serviceId: payload.serviceId,
             amount: payload.amount,
             transactionId: transactionId,
+        },
+    });
+    // update Booking status
+    const isExist = yield prisma_1.default.booking.findFirst({
+        where: {
+            serviceId: payload.serviceId,
+            userId: user === null || user === void 0 ? void 0 : user.id,
+        },
+    });
+    yield prisma_1.default.booking.update({
+        where: {
+            id: isExist === null || isExist === void 0 ? void 0 : isExist.id,
+        },
+        data: {
+            status: "Purchased",
+        },
+    });
+    // update cart status
+    yield prisma_1.default.cart.update({
+        where: {
+            id: payload.cartId,
+        },
+        data: {
+            status: "Purchased",
+        },
+    });
+    // Create notification after payment
+    yield prisma_1.default.notification.create({
+        data: {
+            userId: user === null || user === void 0 ? void 0 : user.id,
+            cartId: payload.cartId,
+            paymentId: result.id,
+            message: `Your payment amount is ${payload.amount} and your transaction id is ${transactionId}. Thank you for your payment.`,
         },
     });
     if (!result) {
