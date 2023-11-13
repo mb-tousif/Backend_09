@@ -159,7 +159,7 @@ model Payment {
   amount             Int
   transactionId      String
   paymentGatewayData Json?
-  status             String   @default("Pending")
+  status             String   @default("Paid")
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 

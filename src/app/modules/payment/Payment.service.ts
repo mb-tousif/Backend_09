@@ -26,7 +26,7 @@ const createPayment = async (
     throw new ApiError(httpStatus.BAD_REQUEST, "User is blocked or inactive");
   };
 
-  const transactionId = `${payload.cartId.slice(0, 4)}-${payload.serviceId.slice(0, 4)}-${payload.amount}-${new Date().getTime()}`;
+  const transactionId = `trnx-${payload?.amount}-${new Date().getTime()}`;
   
   const paymentSession = await sslService.initPayment({
     total_amount: payload.amount,
@@ -37,6 +37,7 @@ const createPayment = async (
     cus_phone: isActive?.contact,
   });
   
+  // Create payment
   const result = await prisma.payment.create({
     data: {
       userId: user?.id,
@@ -44,6 +45,42 @@ const createPayment = async (
       serviceId: payload.serviceId,
       amount: payload.amount,
       transactionId: transactionId,
+    },
+  });
+
+  // update Booking status
+  const isExist = await prisma.booking.findFirst({
+    where: {
+      serviceId: payload.serviceId,
+      userId: user?.id,
+    },
+  });
+  await prisma.booking.update({
+    where: {
+      id: isExist?.id,
+    },
+    data: {
+      status: "Purchased",
+    },
+  });
+  
+  // update cart status
+  await prisma.cart.update({
+    where: {
+      id: payload.cartId,
+    },
+    data: {
+      status: "Purchased",
+    },
+  });
+
+  // Create notification after payment
+  await prisma.notification.create({
+    data: {
+      userId: user?.id,
+      cartId: payload.cartId,
+      paymentId: result.id,
+      message: `Your payment amount is ${payload.amount} and your transaction id is ${transactionId}. Thank you for your payment.`,
     },
   });
 
@@ -241,11 +278,11 @@ const deletePaymentById = async (PaymentId: string): Promise<Payment> => {
 };
 
 export const PaymentService = {
-    createPayment,
-    validatePaymentStatus,
-    getAllPayments,
-    getPaymentById,
-    updatePaymentById,
-    deletePaymentById,
+  createPayment,
+  validatePaymentStatus,
+  getAllPayments,
+  getPaymentById,
+  updatePaymentById,
+  deletePaymentById,
 };
 

@@ -22,7 +22,7 @@ router.get(
 router.post(
     '/create-payment',
     auth(ENUM_USER_ROLE.USER),
-    validateRequest(PaymentValidation.postValidation),
+    // validateRequest(PaymentValidation.postValidation),
     PaymentController.createPayment
 );
 router.post(
