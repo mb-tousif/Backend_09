@@ -11,9 +11,9 @@ const initPayment = async (payload: any) => {
       total_amount: payload.total_amount,
       currency: "BDT",
       tran_id: payload.tran_id, // Must be unique
-      success_url: "frontend-mb-tousif.vercel.app/payment/success",
-      fail_url: "frontend-mb-tousif.vercel.app/payment/fail",
-      cancel_url: "frontend-mb-tousif.vercel.app/payment/cancel",
+      success_url: "https://frontend-mb-tousif.vercel.app/payment/success",
+      fail_url: "https://frontend-mb-tousif.vercel.app/payment/fail",
+      cancel_url: "https://frontend-mb-tousif.vercel.app/payment/cancel",
       ipn_url: "https://frontend-mb-tousif.vercel.app/ipn",
       shipping_method: "N/A",
       product_name: "Service Payment",
