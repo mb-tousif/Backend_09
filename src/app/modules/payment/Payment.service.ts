@@ -167,6 +167,7 @@ const getAllPayments = async (
     include: {
       users: true,
       carts: true,
+      services: true,
       notifications: true,
     },
   });
@@ -197,6 +198,7 @@ const getPaymentById = async (paymentId: string): Promise<Payment> => {
     include: {
       users: true,
       carts: true,
+      services: true,
       notifications: true,
     },
   });

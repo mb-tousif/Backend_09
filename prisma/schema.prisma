@@ -50,6 +50,7 @@ model Service {
   carts    Cart[]
   bookings Booking[]
   reviews  Review[]
+  payments Payment[]
 
   @@map("services")
 }
@@ -165,6 +166,7 @@ model Payment {
 
   users         User           @relation(fields: [userId], references: [id])
   carts         Cart           @relation(fields: [cartId], references: [id])
+  services      Service        @relation(fields: [serviceId], references: [id])
   notifications Notification[]
 
   @@map("payments")

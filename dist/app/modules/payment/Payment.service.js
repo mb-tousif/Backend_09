@@ -164,6 +164,7 @@ const getAllPayments = (options, payload) => __awaiter(void 0, void 0, void 0, f
         include: {
             users: true,
             carts: true,
+            services: true,
             notifications: true,
         },
     });
@@ -191,6 +192,7 @@ const getPaymentById = (paymentId) => __awaiter(void 0, void 0, void 0, function
         include: {
             users: true,
             carts: true,
+            services: true,
             notifications: true,
         },
     });
