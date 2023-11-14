@@ -125,6 +125,11 @@ const getNotificationByUserId = async (userId: string): Promise<Notification[]> 
     where: {
       userId: userId,
     },
+    include: {
+      users: true,
+      bookings: true,
+      payments: true,
+    }
   });
 
   if (!result) {

@@ -127,6 +127,11 @@ const getNotificationByUserId = (userId) => __awaiter(void 0, void 0, void 0, fu
         where: {
             userId: userId,
         },
+        include: {
+            users: true,
+            bookings: true,
+            payments: true,
+        }
     });
     if (!result) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Notification did not found");
