@@ -46,6 +46,18 @@ const getNotificationById = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+// Get Notification by user id
+const getNotificationByUserId = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.params.id;
+    const result = await NotificationService.getNotificationByUserId(userId);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Notification fetched successfully",
+      data: result,
+    });
+});
+
 // Update a Notification by id
 const updateNotificationById = catchAsync(async (req: Request, res: Response) => {
     const NotificationId = req.params.id;
@@ -74,6 +86,7 @@ const deleteNotificationById = catchAsync(async (req: Request, res: Response) =>
 export const NotificationController = {
     createNotification,
     getAllNotifications,
+    getNotificationByUserId,
     getNotificationById,
     updateNotificationById,
     deleteNotificationById,

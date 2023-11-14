@@ -66,6 +66,17 @@ const getNotificationById = (0, catchAsync_1.default)((req, res) => __awaiter(vo
         data: result,
     });
 }));
+// Get Notification by user id
+const getNotificationByUserId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.id;
+    const result = yield Notification_service_1.NotificationService.getNotificationByUserId(userId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Notification fetched successfully",
+        data: result,
+    });
+}));
 // Update a Notification by id
 const updateNotificationById = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const NotificationId = req.params.id;
@@ -92,6 +103,7 @@ const deleteNotificationById = (0, catchAsync_1.default)((req, res) => __awaiter
 exports.NotificationController = {
     createNotification,
     getAllNotifications,
+    getNotificationByUserId,
     getNotificationById,
     updateNotificationById,
     deleteNotificationById,

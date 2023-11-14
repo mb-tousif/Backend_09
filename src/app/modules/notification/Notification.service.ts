@@ -119,6 +119,21 @@ const getNotificationById = async (notificationId: string): Promise<Notification
   return result;
 };
 
+// Get Notification by userId
+const getNotificationByUserId = async (userId: string): Promise<Notification[]> => {
+  const result = await prisma.notification.findMany({
+    where: {
+      userId: userId,
+    },
+  });
+
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Notification did not found");
+  }
+
+  return result;
+};
+
 // Update Notification by id
 const updateNotificationById = async ( notificationId: string, payload: Notification): Promise<Notification> => {
   const result = await prisma.notification.update({
@@ -153,6 +168,7 @@ const deleteNotificationById = async (notificationId: string): Promise<Notificat
 export const NotificationService = {
     createNotification,
     getAllNotifications,
+    getNotificationByUserId,
     getNotificationById,
     updateNotificationById,
     deleteNotificationById,

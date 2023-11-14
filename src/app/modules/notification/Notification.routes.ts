@@ -19,6 +19,12 @@ router.get(
     NotificationController.getNotificationById
 );
 
+router.get(
+    '/user/:id',
+    auth(ENUM_USER_ROLE.USER),
+    NotificationController.getNotificationByUserId
+);
+
 router.post(
     '/create-notification',
     auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),

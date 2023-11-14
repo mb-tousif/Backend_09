@@ -121,6 +121,18 @@ const getNotificationById = (notificationId) => __awaiter(void 0, void 0, void 0
     }
     return result;
 });
+// Get Notification by userId
+const getNotificationByUserId = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.notification.findMany({
+        where: {
+            userId: userId,
+        },
+    });
+    if (!result) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Notification did not found");
+    }
+    return result;
+});
 // Update Notification by id
 const updateNotificationById = (notificationId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.default.notification.update({
@@ -149,6 +161,7 @@ const deleteNotificationById = (notificationId) => __awaiter(void 0, void 0, voi
 exports.NotificationService = {
     createNotification,
     getAllNotifications,
+    getNotificationByUserId,
     getNotificationById,
     updateNotificationById,
     deleteNotificationById,
