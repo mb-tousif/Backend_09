@@ -122,6 +122,9 @@ const getBlogsById = (blogId) => __awaiter(void 0, void 0, void 0, function* () 
         where: {
             id: blogId,
         },
+        include: {
+            users: true,
+        },
     });
     if (!result) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Blogs did not found");
