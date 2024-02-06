@@ -90,6 +90,7 @@ CREATE TABLE "notifications" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "bookingId" TEXT,
+    "cartId" TEXT,
     "paymentId" TEXT,
     "message" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -115,10 +116,12 @@ CREATE TABLE "blogs" (
 CREATE TABLE "payments" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "bookingId" TEXT NOT NULL,
+    "cartId" TEXT NOT NULL,
     "serviceId" TEXT NOT NULL,
     "amount" INTEGER NOT NULL,
-    "status" TEXT NOT NULL DEFAULT 'Pending',
+    "transactionId" TEXT NOT NULL,
+    "paymentGatewayData" JSONB,
+    "status" TEXT NOT NULL DEFAULT 'Paid',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -175,10 +178,16 @@ ALTER TABLE "notifications" ADD CONSTRAINT "notifications_bookingId_fkey" FOREIG
 ALTER TABLE "notifications" ADD CONSTRAINT "notifications_paymentId_fkey" FOREIGN KEY ("paymentId") REFERENCES "payments"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "notifications" ADD CONSTRAINT "notifications_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "carts"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "blogs" ADD CONSTRAINT "blogs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "payments" ADD CONSTRAINT "payments_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "payments" ADD CONSTRAINT "payments_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "bookings"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "payments" ADD CONSTRAINT "payments_cartId_fkey" FOREIGN KEY ("cartId") REFERENCES "carts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "payments" ADD CONSTRAINT "payments_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
