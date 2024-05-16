@@ -1,11 +1,10 @@
 services:
-  server:
+  web:
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
       - 5000:5000
-db:
-    image: 'postgres'
     volumes:
-      - data:/var/lib/postgresql/data
-
+      - .:/appnode_modules will be installed on the host machine and mounted inside the container
+      - /app/node_modules
